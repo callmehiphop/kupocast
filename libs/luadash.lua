@@ -82,7 +82,7 @@ end
 
 _.omit = function(collection, paths)
   return _.filter(collection, function(value, key)
-    return _.includes(paths, key)
+    return not _.includes(paths, key)
   end)
 end
 
