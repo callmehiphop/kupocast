@@ -25,7 +25,7 @@ function Profile:new(config)
   profile.Sets = config.sets or {}
 
   profile.OnLoad = _.bind(profile.emit, profile, 'load')
-  profile.OnUnload = _.bind(profile.emit, profile, 'unload')
+  profile.OnUnload = _.bind(profile._onunload, profile)
   profile.HandleCommand = _.bind(profile._oncommand, profile)
   profile.HandleDefault = _.bind(profile._ondefault, profile)
   profile.HandleAbility = _.bind(profile._onaction, profile, 'ability')
@@ -85,6 +85,11 @@ function Profile._onranged(event)
   local target = gData.GetActionTarget()
   self.store:unpack('target', target)
   self:emit(event, target)
+end
+
+function Profile._onunload()
+  self:emit('unload')
+  self:removeAllListeners()
 end
 
 function Profile:_setLockStyle(set)
