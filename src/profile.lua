@@ -77,7 +77,7 @@ end
 
 function Profile:_ondefault()
   local player = gData.GetPlayer()
-  self.store:unpack(player)
+  self.store:unpack('player', player)
   self:emit('default', player)
 end
 
