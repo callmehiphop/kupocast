@@ -22,7 +22,7 @@ end
 
 function utils.equip(set, gear)
   if gear then
-    return gFunc.Equip(set, gear)
+    set = { [set] = gear }
   end
 
   if type(set) == 'string' then
