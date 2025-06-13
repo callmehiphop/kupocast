@@ -47,7 +47,8 @@ function utils.equip(set, gear)
   end)
 end
 
-function utils.exec(cmd)
+function utils.exec(template, ...)
+  local cmd = string.replace(template, ...)
   AshitaCore:GetChatManager():QueueCommand(-1, cmd)
 end
 
@@ -64,7 +65,7 @@ end
 
 function utils.lockStyle(set)
   if type(set) == 'number' then
-    return utils.exec('/lockstyleset ' .. tostring(set))
+    return utils.exec('/lockstyleset %d', set)
   end
 
   if type(set) == 'string' then

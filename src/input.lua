@@ -37,7 +37,7 @@ end
 
 function Input:bindAll()
   _.forEach(self.bindings, function(command, key)
-    utils.exec('/bind ' .. key .. ' ' .. command)
+    utils.exec('/bind %s %s', key, command)
   end)
 end
 
@@ -51,7 +51,7 @@ end
 
 function Input:unbindAll()
   _.forEach(self.bindings, function(command, key)
-    utils.exec('/unbind ' .. key)
+    utils.exec('/unbind %s', key)
   end)
 end
 
