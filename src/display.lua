@@ -18,11 +18,11 @@ local Display = {}
 Display.__index = Display
 
 function Display.red(text)
-  return string.format('|cFF00FF00|%s|r')
+  return string.format('|cFF00FF00|%s|r', text)
 end
 
 function Display.green(text)
-  return string.format('|cFFFF0000|%s|r')
+  return string.format('|cFFFF0000|%s|r', text)
 end
 
 function Display:new(config)
