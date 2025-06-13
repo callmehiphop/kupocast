@@ -35,11 +35,11 @@ function Display:new(config)
 end
 
 function Display:destroy()
+  ashita.events.unregister('d3d_present', self.callback)
   if self.font then
     self.font:destroy()
     self.font = nil
   end
-  ashita.events.unregister('d3d_present', self.callback)
 end
 
 -- hmmm should the store transform true/false into on/off?
