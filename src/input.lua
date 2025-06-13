@@ -1,5 +1,5 @@
 local _ = require('kupocast/libs/luadash')
-local utils = gFunc.LoadFile('kupocast/src/utils')
+local utils = require('kupocast/src/utils')
 
 local Input = {}
 Input.__index = Input

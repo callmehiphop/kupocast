@@ -1,6 +1,6 @@
 local Fonts = require('fonts')
 local _ = require('kupocast/libs/luadash')
-local log = gFunc.LoadFile('kupocast/src/logger')
+local log = require('kupocast/src/logger')
 
 local DEFAULT_FONT = {
   visible = true,

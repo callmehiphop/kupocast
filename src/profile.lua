@@ -1,9 +1,9 @@
 local _ = require('kupocast/libs/luadash')
 local EventEmitter = require('kupocast/libs/events')
-local Display = gFunc.LoadFile('kupocast/src/display')
-local Input = gFunc.LoadFile('kupocast/src/input')
-local log = gFunc.LoadFile('kupocast/src/logger')
-local Store = gFunc.LoadFile('kupocast/src/store')
+local Display = require('kupocast/src/display')
+local Input = require('kupocast/src/input')
+local log = require('kupocast/src/logger')
+local Store = require('kupocast/src/store')
 
 local Profile = {}
 Profile.__index = Profile

@@ -1,6 +1,6 @@
 local _ = require('kupocast/libs/luadash')
-local MapSet = gFunc.LoadFile('kupocast/src/mapset')
-local utils = gFunc.LoadFile('kupocast/src/utils')
+local MapSet = require('kupocast/src/mapset')
+local utils = require('kupocast/src/utils')
 
 local Store = {}
 
