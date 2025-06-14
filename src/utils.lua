@@ -21,12 +21,15 @@ function utils.disabled(slots, disabled)
 end
 
 function utils.equip(set, gear)
+  local profile = gProfile
+  local store = profile.store
+
   if gear then
     set = { [set] = gear }
   end
 
   if type(set) == 'string' then
-    set = gProfile.Sets[set]
+    set = profile.Sets[set]
   end
 
   if not set then
@@ -35,13 +38,12 @@ function utils.equip(set, gear)
 
   gFunc.EquipSet(set)
 
-  -- we could inject here with gProfile.store ?
   _.forEach(set.Computed, function(factory, slot)
-    gFunc.Equip(slot, factory())
+    gFunc.Equip(slot, store:inject(factory))
   end)
 
   _.forEach(set.Effects, function(effect, slot)
-    if effect.When() then
+    if store:inject(effect.When) then
       gFunc.Equip(slot, effect.Name)
     end
   end)
