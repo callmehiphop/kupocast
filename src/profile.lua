@@ -30,8 +30,8 @@ function Profile:new(config)
   profile.HandleDefault = _.bind(profile._ondefault, profile)
   profile.HandleAbility = _.bind(profile._onaction, profile, 'ability')
   profile.HandleWeaponskill = _.bind(profile._onaction, profile, 'weaponskill')
-  profile.HandlePrecast = _.bind(profile._onaction, profile, 'spell', 'precast')
-  profile.HandleMidcast = _.bind(profile._onaction, profile, 'spell', 'midcast')
+  profile.HandlePrecast = _.bind(profile._onaction, profile, 'precast')
+  profile.HandleMidcast = _.bind(profile._onaction, profile, 'midcast')
   profile.HandleItem = _.bind(profile._onaction, profile, 'item')
   profile.HandlePreshot = _.bind(profile._onranged, profile, 'preshot')
   profile.HandleMidshot = _.bind(profile._onranged, profile, 'midshot')
@@ -62,12 +62,12 @@ function Profile:_createDisplay(options)
   self:once('unload', _.bind(display.destroy, display))
 end
 
-function Profile:_onaction(type, event)
+function Profile:_onaction(event)
   local action = gData.GetAction()
   local target = gData.GetActionTarget()
-  self.store:unpack(type, action)
-  self.store:unpack('target', target)
-  self:emit(event or type, action, target)
+  self.store.action = action
+  self.store.target = target
+  self:emit(event, action, target)
 end
 
 function Profile:_oncommand(args)
@@ -77,13 +77,13 @@ end
 
 function Profile:_ondefault()
   local player = gData.GetPlayer()
-  self.store:unpack('player', player)
+  self.store.player = player
   self:emit('default', player)
 end
 
 function Profile._onranged(event)
   local target = gData.GetActionTarget()
-  self.store:unpack('target', target)
+  self.store.target = target
   self:emit(event, target)
 end
 

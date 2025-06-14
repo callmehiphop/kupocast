@@ -52,17 +52,6 @@ function utils.exec(template, ...)
   AshitaCore:GetChatManager():QueueCommand(-1, cmd)
 end
 
-function utils.getParams(func)
-  local info = debug.getinfo(func, 'u')
-  local params = {}
-
-  for i = 1, info.nparams do
-    table.insert(params, debug.getlocal(func, i))
-  end
-
-  return params
-end
-
 function utils.lockStyle(set)
   if type(set) == 'number' then
     return utils.exec('/lockstyleset %d', set)

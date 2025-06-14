@@ -1,6 +1,6 @@
 local _ = require('kupocast/libs/luadash')
+local Injector = require('kupocast/src/injector')
 local MapSet = require('kupocast/src/mapset')
-local utils = require('kupocast/src/utils')
 
 local Store = {}
 
@@ -29,6 +29,7 @@ function Store:new(config)
   config = config or {}
 
   local store = self
+  store._injector = Injector:new(store)
   store.state = _.assign({}, config.state or {})
   store.getters = _.assign({}, config.getters or {})
   store.actions = _.assign({}, config.actions or {})
@@ -63,25 +64,12 @@ function Store:createToggle(key, value)
   end
 end
 
-function Store:inject(func, deps)
-  deps = deps or utils.getParams(func)
-  local values = _.map(deps, function(dep)
-    return self[dep]
-  end)
-  return func(table.unpack(values))
+function Store:inject(func)
+  return store._injector:inject(func)
 end
 
 function Store:map(key)
   return MapSet:new(self, key)
-end
-
-function Store:unpack(key, tbl)
-  self[key] = tbl
-
-  -- TODO: make a util for key .. _.upperFirst(thing)
-  _.forEach(tbl, function(value, prop)
-    self[key .. _.upperFirst(prop)] = value
-  end)
 end
 
 return Store
