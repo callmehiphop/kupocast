@@ -86,6 +86,12 @@ _.omit = function(collection, paths)
   end)
 end
 
+_.push = function(collection, ...)
+  _.forEach({ ... }, function(value)
+    table.insert(collection, value)
+  end)
+end
+
 _.transform = function(object, iteratee, accumulator)
   accumulator = accumulator or {}
   _.forEach(object, function(value, key)
