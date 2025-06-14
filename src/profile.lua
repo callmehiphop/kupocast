@@ -45,6 +45,9 @@ function Profile:new(config)
   if config.lockStyle then
     profile:_setLockStyle(config.lockStyle)
   end
+  if config.plugins then
+    profile:_installPlugins(config.plugins)
+  end
 
   return profile
 end
@@ -60,6 +63,16 @@ function Profile:_createDisplay(options)
   local display = Display:new(self.store, options)
   self:once('load', _.bind(display.start, display))
   self:once('unload', _.bind(display.destroy, display))
+end
+
+function Profile:_installPlugins(plugins)
+  _.forEach(config.plugins, function(plugin)
+    local options
+    if #plugin then
+      plugin, options = plugin[1], plugin[2]
+    end
+    self:use(plugin, options)
+  end)
 end
 
 function Profile:_onaction(event)
