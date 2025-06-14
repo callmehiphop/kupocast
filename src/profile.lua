@@ -3,6 +3,7 @@ local EventEmitter = require('kupocast/libs/events')
 local Display = require('kupocast/src/display')
 local Input = require('kupocast/src/input')
 local log = require('kupocast/src/logger')
+local SetTable = require('kupocast/src/settable')
 local Store = require('kupocast/src/store')
 
 local Profile = {}
@@ -22,7 +23,7 @@ function Profile:new(config)
   setmetatable(profile, self)
 
   profile.store = config.store or Store:new()
-  profile.Sets = config.sets or {}
+  profile.Sets = SetTable:new(profile.store)
 
   profile.OnLoad = _.bind(profile.emit, profile, 'load')
   profile.OnUnload = _.bind(profile._onunload, profile)

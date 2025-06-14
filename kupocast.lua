@@ -13,6 +13,5 @@ return {
   combine = utils.combine,
   disable = _.bind(utils.disabled, true),
   enable = _.bind(utils.disabled, false),
-  equip = utils.equip,
   exec = utils.exec,
 }
