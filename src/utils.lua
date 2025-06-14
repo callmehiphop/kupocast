@@ -54,20 +54,4 @@ function utils.exec(template, ...)
   AshitaCore:GetChatManager():QueueCommand(-1, cmd)
 end
 
-function utils.lockStyle(set)
-  if type(set) == 'number' then
-    return utils.exec('/lockstyleset %d', set)
-  end
-
-  if type(set) == 'string' then
-    set = gProfile.Sets[set]
-  end
-
-  if type(set) ~= 'table' then
-    error('Unable to lock style with ' .. type(set))
-  end
-
-  gFunc.LockStyle(set)
-end
-
 return utils
