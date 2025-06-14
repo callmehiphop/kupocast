@@ -49,7 +49,9 @@ end
 _.forEach = function(collection, iteratee)
   if type(collection) == 'table' then
     for key, value in pairs(collection) do
-      iteratee(value, key)
+      if iteratee(value, key) == false then
+        return collection -- lua doesnt have a break
+      end
     end
   end
   return collection
