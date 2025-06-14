@@ -6,7 +6,7 @@ function utils.combine(...)
   return _.assign({}, ...)
 end
 
-function utils.disabled(slots, disabled)
+function utils.disabled(disabled, slots)
   if type(slots) ~= 'table' then
     slots = { slots }
   end

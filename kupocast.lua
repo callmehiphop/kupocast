@@ -1,8 +1,8 @@
 local _ = require('kupocast/libs/luadash')
-local logger = gFunc.LoadFile('kupocast/src/logger')
-local Profile = gFunc.LoadFile('kupocast/src/profile')
-local Store = gFunc.LoadFile('kupocast/src/store')
-local utils = gFunc.LoadFile('kupocast/src/utils')
+local logger = require('kupocast/src/logger')
+local Profile = require('kupocast/src/profile')
+local Store = require('kupocast/src/store')
+local utils = require('kupocast/src/utils')
 
 return {
   Profile = Profile,
@@ -11,14 +11,8 @@ return {
   log = logger,
   bind = _.bind,
   combine = utils.combine,
+  disable = _.bind(utils.disabled, true),
+  enable = _.bind(utils.disabled, false),
   equip = utils.equip,
   exec = utils.exec,
-
-  enable = function(slots)
-    return utils.disabled(slots, false)
-  end,
-
-  disable = function(slots)
-    return utils.disabled(slots, true)
-  end,
 }
