@@ -128,7 +128,7 @@ _.size = function(collection)
 end
 
 _.transform = function(object, iteratee, accumulator)
-  return _.reduce(object or {}, iteratee, accumulator)
+  return _.reduce(object, iteratee, accumulator or {})
 end
 
 _.upperFirst = function(str)
