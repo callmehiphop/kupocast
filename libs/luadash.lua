@@ -74,6 +74,16 @@ _.invert = function(collection)
   return inverted
 end
 
+_.isEmpty = function(value)
+  if type(value) ~= 'table' then
+    return true
+  end
+  for k, v in pairs(value) do
+    return false
+  end
+  return true
+end
+
 _.map = function(collection, iteratee)
   local mapped = {}
   _.forEach(collection, function(value, key)
@@ -94,12 +104,21 @@ _.push = function(collection, ...)
   end)
 end
 
-_.transform = function(object, iteratee, accumulator)
-  accumulator = accumulator or {}
-  _.forEach(object, function(value, key)
-    accumulator = iteratee(accumulator, value, key, object) or accumulator
+_.reduce = function(collection, iteratee, accumulator)
+  _.forEach(collection, function(value, key)
+    accumulator = iteratee(accumulator, value, key, collection)
   end)
   return accumulator
+end
+
+_.size = function(collection)
+  return _.reduce(collection, function(size)
+    return size + 1
+  end, 0)
+end
+
+_.transform = function(object, iteratee, accumulator)
+  return _.reduce(object or {}, iteratee, accumulator)
 end
 
 _.upperFirst = function(str)

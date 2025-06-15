@@ -7,25 +7,29 @@ function utils.combine(...)
   local computed = {}
   local effects = {}
 
+  -- sets on the right hand side override things on the left
   _.forEach({ ... }, function(set)
-    -- add new static slots and remove any conflicting computed slots
+    -- static gear on the right overrides computed gear on the left
     _.forEach(set, function(gear, slot)
       computed[slot] = nil
       set[slot] = gear
     end)
-    -- new computed slots take precedence over older static slots
+
+    -- we can nil out static gear because computed would just override it
     _.forEach(set.Computed, function(factory, slot)
       set[slot] = nil
       computed[slot] = factory
     end)
-    -- merge all effects, although maybe we nil these out?
+
+    -- effects are conditionally equipped, so its up to the user to specify when
+    -- these should and shouldn't be active
     if set.Effects then
       _.assign(effects, set.Effects)
     end
   end)
 
-  set.Computed = computed
-  set.Effects = effects
+  set.Computed = (not _.isEmpty(computed) and computed) or nil
+  set.Effects = (not _.isEmpty(effects) and effects) or nil
 
   return set
 end
