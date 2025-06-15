@@ -84,6 +84,16 @@ _.isEmpty = function(value)
   return true
 end
 
+_.isInstanceOf = function(value, cls)
+  while value do
+    value = getmetatable(value)
+    if value == cls then
+      return true
+    end
+  end
+  return false
+end
+
 _.map = function(collection, iteratee)
   local mapped = {}
   _.forEach(collection, function(value, key)

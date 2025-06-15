@@ -1,12 +1,14 @@
 local _ = require('kupocast/libs/luadash')
 local EventEmitter = require('kupocast/libs/events')
 local Display = require('kupocast/src/display')
+local Injector = require('kupocast/src/injector')
 local Input = require('kupocast/src/input')
 local log = require('kupocast/src/logger')
 local SetTable = require('kupocast/src/settable')
 local Store = require('kupocast/src/store')
 
 local Profile = {}
+
 Profile.__index = Profile
 
 setmetatable(Profile, {
@@ -23,7 +25,8 @@ function Profile:new(config)
   setmetatable(profile, self)
 
   profile.store = config.store or Store:new()
-  profile.Sets = SetTable:new(profile.store)
+  profile.injector = Injector:new(profile.store)
+  profile.Sets = SetTable:new(profile.injector)
 
   profile.OnLoad = _.bind(profile.emit, profile, 'load')
   profile.OnUnload = _.bind(profile._onunload, profile)

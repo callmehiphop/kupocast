@@ -1,27 +1,24 @@
+local SetTable = require('kupocast/src/settable')
+
 local MapSet = {}
 
-MapSet.__index = function(t, k)
-  local set = t:get()
-  if set[k] then
-    return set[k]
-  end
-  return rawget(t, k)
-end
+MapSet.__index = MapSet
+MapSet.__newindex = SetTable.__newindex
+setmetatable(MapSet, { __index = SetTable })
 
 MapSet.__pairs = function(t)
   return pairs(t:get())
 end
 
-function MapSet:new(store, key)
-  local map = setmetatable(self, MapSet)
-  map.store = store
-  map.key = key
-  return map
+function MapSet:new(injector, key)
+  local map = SetTable:new(injector)
+  rawset(map, '_key', key)
+  return setmetatable(map, self)
 end
 
 function MapSet:get()
-  local setKey = self.store[self.key]
-  return self[setKey] or self.Default or {}
+  local key = self._injector:get(self._key) or 'Default'
+  return self[key] or {}
 end
 
 return MapSet

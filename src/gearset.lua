@@ -17,9 +17,9 @@ GearSet.__pairs = function(set)
   return next, set:build(), nil
 end
 
-function GearSet:new(store, gear)
+function GearSet:new(injector, gear)
   local set = {}
-  set.store = store
+  set.inject = _.bind(injector.inject, injector)
   set.gear = gear
   set.__index = self
   return setmetatable(set, self)
@@ -29,14 +29,14 @@ function GearSet:build()
   local set = _.omit(self.gear, { 'Computed', 'Effects' })
 
   _.forEach(self.gear.Computed, function(factory, slot)
-    local gear = self.store:inject(factory)
+    local gear = self.inject(factory)
     if gear then
       set[slot] = gear
     end
   end)
 
   _.forEach(self.gear.Effects, function(effect, slot)
-    if self.store:inject(effect.When) then
+    if self.inject(effect.When) then
       set[slot] = effect.Name
     end
   end)

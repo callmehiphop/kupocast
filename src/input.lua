@@ -2,6 +2,7 @@ local _ = require('kupocast/libs/luadash')
 local utils = require('kupocast/src/utils')
 
 local Input = {}
+
 Input.__index = Input
 
 function Input.normalize(key, options)

@@ -1,5 +1,4 @@
 local _ = require('kupocast/libs/luadash')
-local Injector = require('kupocast/src/injector')
 local MapSet = require('kupocast/src/mapset')
 
 local Store = {}
@@ -29,7 +28,6 @@ function Store:new(config)
   config = config or {}
 
   local store = self
-  store._injector = Injector:new(store)
   store.state = _.assign({}, config.state or {})
   store.getters = _.assign({}, config.getters or {})
   store.actions = _.assign({}, config.actions or {})
@@ -62,14 +60,6 @@ function Store:createToggle(key, value)
     self[key] = value
     return value
   end
-end
-
-function Store:inject(func)
-  return store._injector:inject(func)
-end
-
-function Store:map(key)
-  return MapSet:new(self, key)
 end
 
 return Store

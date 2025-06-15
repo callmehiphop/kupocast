@@ -15,6 +15,7 @@ local DEFAULT_FONT = {
 }
 
 local Display = {}
+
 Display.__index = Display
 
 function Display.red(text)
