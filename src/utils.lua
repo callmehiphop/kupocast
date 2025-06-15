@@ -53,4 +53,9 @@ function utils.exec(template, ...)
   AshitaCore:GetChatManager():QueueCommand(-1, cmd)
 end
 
+function utils.switch(value, cases)
+  local case = cases[value] or cases.default or _.noop
+  return case()
+end
+
 return utils
