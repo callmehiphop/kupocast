@@ -26,16 +26,37 @@ function GearSet:new(injector, gear)
 end
 
 function GearSet:build()
+  local computed = self.gear.Computed
+  local effects = self.gear.Effects
+
+  if not computed and not effects then
+    return self.gear
+  end
+
   local set = _.omit(self.gear, { 'Computed', 'Effects' })
 
-  _.forEach(self.gear.Computed, function(factory, slot)
+  if computed then
+    self:_applyComputed(set, computed)
+  end
+
+  if effects then
+    self:_applyEffects(set, effects)
+  end
+
+  return set
+end
+
+function GearSet:_applyComputed(set, computed)
+  _.forEach(computed, function(factory, slot)
     local gear = self.injector:inject(factory)
     if gear then
       set[slot] = gear
     end
   end)
+end
 
-  _.forEach(self.gear.Effects, function(effect, slot)
+function GearSet:_applyEffects(set, effects)
+  _.forEach(effects, function(effect, slot)
     local condition = false
 
     if type(effect.When) == 'string' then
@@ -48,8 +69,6 @@ function GearSet:build()
       set[slot] = effect.Name
     end
   end)
-
-  return set
 end
 
 return GearSet
