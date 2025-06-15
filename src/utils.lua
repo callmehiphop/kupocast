@@ -3,7 +3,7 @@ local _ = require('kupocast/libs/luadash')
 local utils = {}
 
 function utils.combine(...)
-  local set = {}
+  local gearset = {}
   local computed = {}
   local effects = {}
 
@@ -12,12 +12,12 @@ function utils.combine(...)
     -- static gear on the right overrides computed gear on the left
     _.forEach(set, function(gear, slot)
       computed[slot] = nil
-      set[slot] = gear
+      gearset[slot] = gear
     end)
 
     -- we can nil out static gear because computed would just override it
     _.forEach(set.Computed, function(factory, slot)
-      set[slot] = nil
+      gearset[slot] = nil
       computed[slot] = factory
     end)
 
@@ -28,10 +28,10 @@ function utils.combine(...)
     end
   end)
 
-  set.Computed = (not _.isEmpty(computed) and computed) or nil
-  set.Effects = (not _.isEmpty(effects) and effects) or nil
+  gearset.Computed = (not _.isEmpty(computed) and computed) or nil
+  gearset.Effects = (not _.isEmpty(effects) and effects) or nil
 
-  return set
+  return gearset
 end
 
 function utils.disabled(disabled, slots)
@@ -42,7 +42,7 @@ function utils.disabled(disabled, slots)
   _.forEach(slots, function(slot)
     local index = gData.GetEquipSlot(slot)
 
-    if slotIndex ~= 0 then
+    if index ~= 0 then
       gState.Disabled[index] = disabled
     end
   end)

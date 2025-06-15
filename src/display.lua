@@ -31,7 +31,7 @@ function Display:new(config)
   display.store = config.store
   display.fields = config.fields
   display.callback = config.callback or 'kupocast_display_cb'
-  display.fontOptions = _.assign({}, DEFAULT_FONT, options.font or {})
+  display.fontOptions = _.assign({}, DEFAULT_FONT, config.font or {})
   return display
 end
 
@@ -70,7 +70,7 @@ function Display:update()
     local field = string.format('%s: %s', label, self:getFieldValue(key))
     table.insert(state, field)
   end)
-  self.font.text = table.join(state, '\n')
+  self.font.text = _.join(state, '\n')
 end
 
 return Display

@@ -94,6 +94,11 @@ _.isInstanceOf = function(value, cls)
   return false
 end
 
+_.join = function(tbl, separator)
+  separator = separator or ','
+  return table.join(tbl, separator)
+end
+
 _.map = function(collection, iteratee)
   local mapped = {}
   _.forEach(collection, function(value, key)
@@ -101,6 +106,8 @@ _.map = function(collection, iteratee)
   end)
   return mapped
 end
+
+_.noop = function() end
 
 _.omit = function(collection, paths)
   return _.filter(collection, function(value, key)

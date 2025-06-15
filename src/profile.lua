@@ -6,6 +6,7 @@ local Input = require('kupocast/src/input')
 local log = require('kupocast/src/logger')
 local SetTable = require('kupocast/src/settable')
 local Store = require('kupocast/src/store')
+local utils = require('kupocast/src/utils')
 
 local Profile = {}
 
@@ -56,7 +57,7 @@ function Profile:new(config)
   return profile
 end
 
-function Profile._bindHotKeys(options)
+function Profile:_bindHotKeys(options)
   local input = Input:new(options)
   self:once('load', _.bind(input.bindAll, input))
   self:once('unload', _.bind(input.unbindAll, input))
@@ -70,7 +71,7 @@ function Profile:_createDisplay(options)
 end
 
 function Profile:_installPlugins(plugins)
-  _.forEach(config.plugins, function(plugin)
+  _.forEach(plugins, function(plugin)
     local options
     if #plugin then
       plugin, options = plugin[1], plugin[2]
@@ -98,13 +99,13 @@ function Profile:_ondefault()
   self:emit('default', player)
 end
 
-function Profile._onranged(event)
+function Profile:_onranged(event)
   local target = gData.GetActionTarget()
   self.store.target = target
   self:emit(event, target)
 end
 
-function Profile._onunload()
+function Profile:_onunload()
   self:emit('unload')
   self:removeAllListeners()
 end
@@ -134,6 +135,7 @@ function Profile:use(plugin, options)
   else
     log.success(plugin.name .. ' loaded')
   end
+  return status
 end
 
 return Profile
