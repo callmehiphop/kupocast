@@ -113,14 +113,14 @@ end
 function Profile:_setLockStyle(set)
   self:once('load', function()
     ashita.tasks.once(2, function()
-      if type(set) == 'number' then
+      if _.isNumber(set) then
         return utils.exec('/lockstyleset %d', set)
       end
-      if type(set) == 'string' then
+      if _.isString(set) then
         set = self.Sets[set]
       end
-      if type(set) ~= 'table' then
-        error('Unable to lock style with ' .. type(set))
+      if not _.isTable(set) then
+        return log.error('Unable to lock style with ' .. type(set))
       end
       gFunc.LockStyle(set)
     end)

@@ -18,6 +18,13 @@ _.bind = function(func, ...)
   end
 end
 
+_.castArray = function(value)
+  if type(value) == 'table' and #value then
+    return value
+  end
+  return { value }
+end
+
 _.clone = function(value)
   return { table.unpack(value) }
 end
@@ -57,6 +64,22 @@ _.forEach = function(collection, iteratee)
   return collection
 end
 
+_.forEachRight = function(collection, iteratee)
+  if type(collection) == 'table' then
+    if not #collection then
+      return _.forEachRight(_.keys(collection), function(key)
+        return iteratee(collection[key], key)
+      end)
+    end
+    for i = #collection, 1, -1 do
+      if iteratee(collection[i], i) == false then
+        return collection
+      end
+    end
+  end
+  return collection
+end
+
 _.includes = function(collection, value)
   for k, v in pairs(collection) do
     if v == value then
@@ -74,6 +97,14 @@ _.invert = function(collection)
   return inverted
 end
 
+_.isArray = function(value)
+  return _.isTable(value) and _.size(value) == #value
+end
+
+_.isBoolean = function(value)
+  return type(value) == 'boolean'
+end
+
 _.isEmpty = function(value)
   if type(value) ~= 'table' then
     return true
@@ -82,6 +113,10 @@ _.isEmpty = function(value)
     return false
   end
   return true
+end
+
+_.isFunction = function(value)
+  return type(value) == 'function'
 end
 
 _.isInstanceOf = function(value, cls)
@@ -94,9 +129,33 @@ _.isInstanceOf = function(value, cls)
   return false
 end
 
+_.isNil = function(value)
+  return value == nil
+end
+
+_.isNumber = function(value)
+  return type(value) == 'number'
+end
+
+_.isString = function(value)
+  return type(value) == 'string'
+end
+
+_.isTable = function(value)
+  return type(value) == 'table'
+end
+
 _.join = function(tbl, separator)
   separator = separator or ','
-  return table.join(tbl, separator)
+  return table.concat(tbl, separator)
+end
+
+_.keys = function(object)
+  local keys = {}
+  _.forEach(object, function(value, key)
+    table.insert(keys, key)
+  end)
+  return keys
 end
 
 _.map = function(collection, iteratee)
@@ -119,6 +178,7 @@ _.push = function(collection, ...)
   _.forEach({ ... }, function(value)
     table.insert(collection, value)
   end)
+  return collection
 end
 
 _.reduce = function(collection, iteratee, accumulator)
@@ -140,6 +200,13 @@ end
 
 _.upperFirst = function(str)
   return (str:gsub('^%1', string.upper))
+end
+
+_.unshift = function(collection, values)
+  _.forEachRight(values, function(value)
+    table.insert(collection, 1, value)
+  end)
+  return collection
 end
 
 return _

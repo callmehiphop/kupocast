@@ -2,18 +2,18 @@ local _ = require('kupocast/libs/luadash')
 
 local Store = {}
 
-setmetadata(Store, {
+setmetatable(Store, {
   __call = function(config)
     return Store:new(config)
   end,
 })
 
 Store.__index = function(t, k)
-  if t.state[k] ~= nil then
+  if not _.isNil(t.state[k]) then
     return t.state[k]
-  elseif type(t.getters[k]) == 'function' then
+  elseif _.isFunction(t.getters[k]) then
     return t.getters[k](t)
-  elseif type(t.actions[k]) == 'function' then
+  elseif _.isFunction(t.action[k]) then
     return t.actions[k]
   end
   return rawget(t, k)
@@ -30,7 +30,7 @@ function Store:new(config)
   store.state = _.assign({}, config.state or {})
   store.getters = _.assign({}, config.getters or {})
   store.actions = _.assign({}, config.actions or {})
-  setmetadata(store, Store)
+  setmetatable(store, Store)
 
   _.forEach(config.cycles, function(values, key)
     store:createCycle(key, values)

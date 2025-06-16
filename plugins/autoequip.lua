@@ -1,3 +1,5 @@
+local kupo = require('kupocast')
+
 local fastCastGearValues = {
   ['Wlk. Chapeau +1'] = 0.10,
   ['Loquac. Earring'] = 0.02,
@@ -77,12 +79,13 @@ local getSpellFamily = function(action)
   elseif action.Skill == 'Enhancing Magic' then
     if action.Name:match(' Spikes$') then
       return 'Spikes'
+    elseif action.Name:match('^Bar') then
+      return 'Barspell'
     end
   elseif action.Skill == 'Enfeebling Magic' then
     if action.Name:match('^Dia') then
       return 'Dia'
-    end
-    if action.Type == 'White Magic' then
+    elseif action.Type == 'White Magic' then
       return 'WhiteEnfeebling'
     end
     return 'BlackEnfeebling'
@@ -101,18 +104,19 @@ return {
 
     local sets = profile.Sets
     local store = profile.store
+    -- TODO: use plugin manager to check
     local packetDelay = (options.packetFlow and 0.25) or 0.4
 
     profile:on('default', function(player)
       if sets[player.Status] then
-        gFunc.EquipSet(sets[player.Status])
+        kupo.equip(sets[player.Status])
       end
     end)
 
     profile:on('precast', function(action)
       local set = sets.Precast or {}
       if set then
-        gFunc.EquipSet(set)
+        kupo.equip(set)
       end
       local castDelay = getCastDelay(store.player, action, set)
       if castDelay >= packetDelay then
@@ -122,46 +126,46 @@ return {
 
     profile:on('midcast', function(action)
       if sets.InterimCast then
-        gFunc.InterimEquipSet(sets.InterimCast)
+        kupo.equipInterim(sets.InterimCast)
       end
       if sets.Recast then
-        gFunc.EquipSet(sets.Recast)
+        kupo.equip(sets.Recast)
       end
       if sets[action.Name] then
-        return gFunc.EquipSet(sets[action.Name])
+        return kupo.equip(sets[action.Name])
       end
       local spellFamily = getSpellFamily(action)
       if sets[spellFamily] then
-        return gFunc.EquipSet(sets[spellFamily])
+        return kupo.equip(sets[spellFamily])
       end
       local spellSkill = skillMap[action.Skill] or action.Skill
       if sets[spellSkill] then
-        gFunc.EquipSet(sets[spellSkill])
+        kupo.equip(sets[spellSkill])
       elseif sets.Midcast then
-        gFunc.EquipSet(sets.Midcast)
+        kupo.equip(sets.Midcast)
       end
     end)
 
     profile:on('ability', function(action)
       if sets[action.Name] then
-        gFunc.EquipSet(sets[action.Name])
+        kupo.equip(sets[action.Name])
       elseif sets.Ability then
-        gFunc.EquipSet(sets.Ability)
+        kupo.equip(sets.Ability)
       end
     end)
 
     profile:on('weaponskill', function(action)
       if sets[action.Name] then
-        gFunc.EquipSet(sets[action.Name])
+        kupo.equip(sets[action.Name])
       elseif sets.Weaponskill then
-        gFunc.EquipSet(sets.Weaponskill)
+        kupo.equip(sets.Weaponskill)
       end
     end)
 
     -- this will only fire if the pet plugin is loaded
     profile:on('petaction', function(action)
       if action.Name:find('Breath') and sets.Breath then
-        gFunc.EquipSet(sets.Breath)
+        kupo.equip(sets.Breath)
       end
     end)
   end,

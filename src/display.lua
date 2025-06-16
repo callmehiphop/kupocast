@@ -49,7 +49,7 @@ function Display:getFieldValue(key)
   if not value then
     return Display.red('Off')
   end
-  if type(value) == 'boolean' then
+  if _.isBoolean(value) then
     value = 'On'
   end
   return Display.green(value)

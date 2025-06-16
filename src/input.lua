@@ -6,10 +6,10 @@ local Input = {}
 Input.__index = Input
 
 function Input.normalize(key, options)
-  if type(options) == 'function' then
+  if _.isFunction(options) then
     local command = '/lac fwd ' .. key
     options = { handler = options, command = command }
-  elseif type(options) == 'string' then
+  elseif _.isString(options) then
     options = { command = options }
   end
   if not options.command then
@@ -45,7 +45,7 @@ end
 function Input:invoke(command, args)
   local handler = self.commands[command]
 
-  if type(handler) == 'function' then
+  if _.isFunction(handler) then
     handler(table.unpack(args))
   end
 end
