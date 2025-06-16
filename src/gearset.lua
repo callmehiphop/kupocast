@@ -28,41 +28,24 @@ end
 function GearSet:build()
   local computed = self:_getComputed()
   local effects = self:_getEffects()
-
-  if not computed and not effects then
+  if _.isEmpty(computed) and _.isEmpty(effects) then
     return self.gear
   end
-
-  local set = _.omit(self.gear, { 'Computed', 'Effects' })
-
-  if computed then
-    _.assign(set, computed)
-  end
-  if effects then
-    _.assign(set, effects)
-  end
-
-  return set
+  return _.assign({}, self.gear, computed, effects)
 end
 
 function GearSet:_getComputed()
-  local computed = self.gear.Computed
-  local built = computed
-    and _.map(computed, function(factory)
-      return self.injector:inject(factory)
-    end)
-  return (not _.isEmpty(built) and built) or nil
+  return _.map(self.gear.Computed, function(factory)
+    return self.injector:inject(factory)
+  end)
 end
 
 function GearSet:_getEffects()
-  local effects = self.gear.Effects
-  local built = effects
-    and _.map(effects, function(effect)
-      if self.injector:inject(effect.When) then
-        return effect.Name
-      end
-    end)
-  return (not _.isEmpty(built) and built) or nil
+  return _.map(self.gear.Effects, function(effect)
+    if self.injector:inject(effect.When) then
+      return effect.Name
+    end
+  end)
 end
 
 return GearSet
