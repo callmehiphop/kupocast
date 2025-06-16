@@ -9,21 +9,17 @@ Injector.__index = Injector
 local function getParams(func)
   local info = debug.getinfo(func, 'u')
   local params = {}
-
   for i = 1, info.nparams do
     table.insert(params, debug.getlocal(func, i))
   end
-
   return params
 end
 
 function Injector:new(store)
   local injector = setmetatable({}, self)
-
   injector.store = store
   injector.cache = {}
   injector.getDeps = memo(getParams, injector.cache)
-
   return injector
 end
 
@@ -40,15 +36,12 @@ function Injector:inject(func)
   if type(func) == 'string' then
     return self:get(func)
   end
-
   local deps = self.getDeps(func)
   local values = _.map(deps, _.bind(self.get, self))
   local result, err = pcall(func, table.unpack(values))
-
   if err then
     log.error('Dependency injection failed. Reason:\n' .. err)
   end
-
   return result
 end
 
