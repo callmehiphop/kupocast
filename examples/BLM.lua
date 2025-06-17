@@ -208,6 +208,8 @@ sets.Dia = kupo.combine(MAB, {
   Waist = Obi,
 })
 
+sets.Spikes = kupo.combine(INT, MAB)
+
 sets.Aspir = kupo.combine(sets.Dark, {
   Main = function(environment)
     return environment.WeatherElement == 'Dark' and "Diabolos's Pole"
