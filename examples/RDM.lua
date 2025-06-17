@@ -51,13 +51,13 @@ local profile = kupo.Profile({
     weapon = function()
       if store.weaponLock then
         kupo.enable({ 'Main', 'Sub' })
-        gFunc.ForceEquipSet('Engaged')
+        kupo.forceEquip('Engaged')
         kupo.disable({ 'Main', 'Sub' })
       end
     end,
     weaponLock = function(locked)
       if locked then
-        gFunc.ForceEquipSet('Engaged')
+        kupo.forceEquip('Engaged')
         kupo.disable({ 'Main', 'Sub' })
       else
         kupo.enable({ 'Main', 'Sub' })
