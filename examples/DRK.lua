@@ -154,9 +154,9 @@ sets.Dark = {
   Hands = 'Crimson Fng. Gnt.',
   Ring1 = 'Tamas Ring',
   Back = 'Merciful Cape',
-  Ring2 = function(action, dayElement)
+  Ring2 = function(action, dayElement, player)
     local threshold = (action.Name == 'Aspir' and 71) or 86
-    if dayElement == 'Dark' and action.MppAftercast < threshold then
+    if dayElement == 'Dark' and player.MPP < threshold then
       return "Diabolos's Ring"
     end
     return 'Snow Ring'
@@ -167,7 +167,7 @@ sets.Absorb = kupo.combine(sets.Dark, {
   Legs = 'Black Cuisses',
 })
 
-sets.Stun = kupo.combine(sets.Dark, Haste)
+sets.Stun = kupo.combine(sets.Dark, sets.Recast)
 
 sets.InterimCast = sets:map('mode')
 sets.InterimCast.Default = SIRD
