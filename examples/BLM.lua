@@ -130,7 +130,7 @@ local MAB = {
     return action.MppAftercast < 51 and 'Uggalepih Pendant'
   end,
   Ring2 = function(player, sorcRing)
-    return sorcRing and player.HP < 641 and "Sorcerer's Ring"
+    return (sorcRing or player.HP < 641) and "Sorcerer's Ring"
   end,
 }
 
