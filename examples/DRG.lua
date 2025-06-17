@@ -121,15 +121,15 @@ sets.Weaponskill = {
   Feet = 'Wonder Clomps', -- lol
 }
 
-sets.Idle = sets:map('mode')
+sets.Idle = sets:select('mode')
 sets.Idle.Default = { Legs = 'Crimson Cuisses' }
 sets.Idle.Tank = kupo.combine(DamageTaken, sets.Idle.Default)
 
-sets.InterimCast = sets:map('mode')
+sets.InterimCast = sets:select('mode')
 sets.InterimCast.Default = SIRD
 sets.InterimCast.Tank = kupo.combine(DamageTaken, SIRD)
 
-sets.Engaged = sets:map('mode')
+sets.Engaged = sets:select('mode')
 sets.Engaged.Default = kupo.combine(Haste, {
   Ammo = 'Tiphia Sting',
   Neck = 'Peacock Amulet',

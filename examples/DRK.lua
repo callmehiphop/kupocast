@@ -169,11 +169,11 @@ sets.Absorb = kupo.combine(sets.Dark, {
 
 sets.Stun = kupo.combine(sets.Dark, sets.Recast)
 
-sets.InterimCast = sets:map('mode')
+sets.InterimCast = sets:select('mode')
 sets.InterimCast.Default = SIRD
 sets.InterimCast.Tank = kupo.combine(DamageTaken, SIRD)
 
-sets.Idle = sets:map('mode')
+sets.Idle = sets:select('mode')
 sets.Idle.Default = {
   Neck = 'Parade Gorget',
   Body = 'Vampire Cloak',
@@ -184,7 +184,7 @@ sets.Idle.Tank = kupo.combine(DamageTaken, {
   Legs = 'Crimson Cuisses',
 })
 
-sets.Engaged = sets:coalesce('weapon', 'mode')
+sets.Engaged = sets:weave('weapon', 'mode')
 -- weapons
 sets.Engaged.Scythe = {
   Main = 'Tredecim Scythe',

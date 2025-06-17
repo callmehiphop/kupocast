@@ -33,9 +33,6 @@ function Injector:get(key)
 end
 
 function Injector:inject(func)
-  if type(func) == 'string' then
-    return self:get(func)
-  end
   local deps = self.getDeps(func)
   local values = _.map(deps, _.bind(self.get, self))
   local result, err = pcall(func, table.unpack(values))

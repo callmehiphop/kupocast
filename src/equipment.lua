@@ -62,7 +62,7 @@ function equipment.equip(setOrSlot, gear)
   return equipWith(gFunc.Equip, setOrSlot, gear)
 end
 
-function equipment.equipInterim(setOrSlot, gear)
+function equipment.interimEquip(setOrSlot, gear)
   return equipWith(gFunc.InterimEquip, setOrSlot, gear)
 end
 

@@ -12,7 +12,8 @@ local store = kupo.Store({
     sorcRing = false,
   },
   cycles = {
-    mode = { 'Default', 'Balanced', 'Accuracy', 'Enmity' },
+    accuracy = { 'Low', 'Medium', 'High' },
+    mode = { 'Default', 'Enmity' },
   },
   getters = {
     isSelfCast = function(state)
@@ -32,12 +33,14 @@ local profile = kupo.Profile({
   store = store,
   lockStyle = 'LockStyle',
   display = {
-    mode = '[m] Mode',
+    mode = '[e] Mode',
+    accuracy = '[m] Magic Accuracy',
     sorcRing = "[r] Sorcerer's Ring",
     magicBurst = '[b] Magic Burst',
   },
   bind = {
-    m = store.cycleMode,
+    e = store.cycleMode,
+    m = store.cycleAccuracy,
     r = store.toggleSorcRing,
     b = store.toggleMagicBurst,
   },
@@ -192,6 +195,12 @@ sets.Dark = kupo.combine(INT, {
   Hands = 'Src. Gloves +1',
   Back = 'Merciful Cape',
   Legs = "Wizard's Tonban",
+  Ring2 = function(action, environment, player)
+    local threshold = (action.Name == 'Aspir' and 71) or 86
+    if environment.DayElement == 'Dark' and player.MPP < threshold then
+      return "Diabolos's Ring"
+    end
+  end,
 })
 
 sets.Barspell = {
@@ -214,20 +223,9 @@ sets.Aspir = kupo.combine(sets.Dark, {
   Main = function(environment)
     return environment.WeatherElement == 'Dark' and "Diabolos's Pole"
   end,
-  Ring2 = function(action, environment)
-    if environment.DayElement == 'Dark' and action.MppAftercast < 71 then
-      return "Diabolos's Ring"
-    end
-  end,
 })
 
-sets.Drain = kupo.combine(sets.Aspir, {
-  Ring2 = function(action, environment)
-    if environment.DayElement == 'Dark' and action.MppAftercast < 86 then
-      return "Diabolos's Ring"
-    end
-  end,
-})
+sets.Drain = sets.Aspir
 
 sets.Stoneskin = kupo.combine(MND, {
   Neck = 'Stone Gorget',
@@ -245,7 +243,7 @@ sets.Invisible = {
   end,
 }
 
-sets.Precast = sets:map('precast')
+sets.Precast = sets:select('precast')
 sets.Precast.Default = FastCast
 sets.Precast.HpDown = kupo.combine(FastCast, {
   Head = 'Zenith crown',
@@ -255,19 +253,20 @@ sets.Precast.HpDown = kupo.combine(FastCast, {
   Legs = 'Zenith slacks',
 })
 
-sets.Elemental = sets:map('mode')
-sets.Elemental.Default = kupo.combine(INT, { Main = Staff })
-sets.Elemental.Balanced = kupo.combine(sets.Elemental.Default, {
+sets.Elemental = sets:select('accuracy')
+sets.Elemental.Low = kupo.combine(INT, { Main = Staff })
+sets.Elemental.Medium = kupo.combine(sets.Elemental.Low, {
   Head = 'Src. Petasos +1',
   Back = 'Merciful Cape',
 })
-sets.Elemental.Accuracy = kupo.combine(sets.Elemental.Balanced, {
+sets.Elemental.High = kupo.combine(sets.Elemental.Medium, {
   Neck = 'Elemental Torque',
   Hands = "Wizard's Gloves",
 })
 
-sets.Nuke = sets:map('mode')
-sets.Nuke.Default = kupo.combine(INT, MAB, {
+sets.Nuke = sets:weave('accuracy', 'mode')
+-- accuracy sets
+sets.Nuke.Low = kupo.combine(INT, MAB, {
   Main = Staff,
   Waist = Obi,
   Hands = function(magicBurst)
@@ -277,17 +276,17 @@ sets.Nuke.Default = kupo.combine(INT, MAB, {
     return action.Element == environment.DayElement and "Sorcerer's Tonban"
   end,
 })
-sets.Nuke.Balanced = kupo.combine(sets.Nuke.Default, {
+sets.Nuke.Medium = kupo.combine(sets.Nuke.Low, {
   Head = 'Src. Petasos +1',
   Back = 'Merciful Cape',
 })
-sets.Nuke.Accuracy = kupo.combine(sets.Nuke.Balanced, {
+sets.Nuke.High = kupo.combine(sets.Nuke.Medium, {
   Neck = 'Elemental Torque',
   Hands = "Wizard's Gloves",
   Legs = 'Mahatma Slops',
 })
+-- mode sets
 sets.Nuke.Enmity = kupo.combine(INT, {
-  Main = Staff,
   Ammo = 'Hedgehog Bomb',
   Waist = "Penitent's Rope",
 })

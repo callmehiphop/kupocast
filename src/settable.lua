@@ -1,5 +1,5 @@
 local _ = require('kupocast/libs/luadash')
-local MapSet = require('kupocast/src/mapset')
+local SetMatrix = require('kupocast/src/setmatrix')
 
 local SetTable = {}
 
@@ -11,8 +11,12 @@ function SetTable:new(injector)
   return setmetatable(sets, self)
 end
 
-function SetTable:map(key)
-  return MapSet:new(self._injector, key)
+function SetTable:select(key)
+  return SetMatrix:new(self._injector, { key })
+end
+
+function SetTable:weave(...)
+  return SetMatrix:new(self._injector, { ... })
 end
 
 return SetTable
