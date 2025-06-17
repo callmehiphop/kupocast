@@ -35,7 +35,7 @@ local DamageTaken = {
   Hands = 'Dst. Mittens +1',
   Legs = 'Dst. Subligar +1',
   Feet = 'Dst. Leggings +1',
-  Ring1 = function(jellyRing)
+  Ring2 = function(jellyRing)
     return jellyRing and 'Jelly Ring'
   end,
 }
@@ -51,7 +51,7 @@ local FastCast = {
 local Haste = {
   Head = 'Homam Zucchetto',
   Hands = 'Homam Manopolas',
-  Ring1 = 'Blitz Ring',
+  Ring2 = 'Blitz Ring',
   Waist = 'Swift Belt',
   Legs = 'Homam Cosciales',
   Feet = 'Homam Gambieras',
@@ -136,13 +136,13 @@ sets.Engaged.Default = kupo.combine(Haste, {
   Ear1 = 'Brutal Earring',
   Ear2 = "Merman's Earring",
   Body = 'Assault Jerkin',
-  Ring2 = "Toreador's Ring",
+  Ring1 = "Toreador's Ring",
   Back = "Forager's Mantle",
 })
 sets.Engaged.Accuracy = kupo.combine(sets.Engaged.Default, {
   Head = 'Optical Hat',
   Body = 'Scp. Harness +1',
-  Ring1 = "Toreador's Ring",
+  Ring2 = "Toreador's Ring",
 })
 sets.Engaged.Tank = kupo.combine(sets.Engaged.Default, DamageTaken, {
   Ammo = 'Happy Egg',
