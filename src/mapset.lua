@@ -12,7 +12,7 @@ end
 
 function MapSet:new(injector, key)
   local map = SetTable:new(injector)
-  rawset(map, '_key', key)
+  map._key = key
   return setmetatable(map, self)
 end
 

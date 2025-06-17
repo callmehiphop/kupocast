@@ -27,7 +27,7 @@ function Display.green(text)
 end
 
 function Display:new(config)
-  local display = setmetatable(self, Display)
+  local display = setmetatable({}, self)
   display.store = config.store
   display.fields = config.fields
   display.callback = config.callback or 'kupocast_display_cb'
@@ -60,7 +60,7 @@ function Display:start()
     return log.warn('Display already started')
   end
   self.font = Fonts.new(self.fontOptions)
-  local update = _.bind(Display.update, self)
+  local update = _.bind(self.update, self)
   ashita.events.unregister('d3d_present', self.callback, update)
 end
 

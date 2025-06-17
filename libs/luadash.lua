@@ -97,8 +97,8 @@ _.invert = function(collection)
   return inverted
 end
 
-_.isArray = function(value)
-  return _.isTable(value) and _.size(value) == #value
+_.isArrayLike = function(value)
+  return _.isTable(value) and #value > 0
 end
 
 _.isBoolean = function(value)

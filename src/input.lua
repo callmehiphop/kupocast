@@ -19,7 +19,7 @@ function Input.normalize(key, options)
 end
 
 function Input:new(config)
-  local input = setmetatable(self, Input)
+  local input = setmetatable({}, self)
 
   input.bindings = {}
   input.commands = {}

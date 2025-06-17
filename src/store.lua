@@ -26,11 +26,11 @@ end
 function Store:new(config)
   config = config or {}
 
-  local store = self
+  local store = {}
   store.state = _.assign({}, config.state or {})
   store.getters = _.assign({}, config.getters or {})
   store.actions = _.assign({}, config.actions or {})
-  setmetatable(store, Store)
+  setmetatable(store, self)
 
   _.forEach(config.cycles, function(values, key)
     store:createCycle(key, values)

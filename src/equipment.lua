@@ -51,12 +51,10 @@ local function equipWith(Equip, setOrSlot, maybeGear)
   _.forEach(set, function(gear, slot)
     if _.isFunction(gear) then
       gear = injector:inject(gear)
-    elseif _.isTable(gear) and #gear then
+    elseif _.isArrayLike(gear) then
       gear = equipment.resolve(gear)
     end
-    if gear then
-      Equip(slot, gear)
-    end
+    Equip(slot, gear)
   end)
 end
 
@@ -68,11 +66,11 @@ function equipment.equipInterim(setOrSlot, gear)
   return equipWith(gFunc.InterimEquip, setOrSlot, gear)
 end
 
-function equipment.resolve(gears)
+function equipment.resolve(gearList)
   local injector = gProfile.injector
   local resolved = nil
 
-  _.forEach(gears, function(gear)
+  _.forEach(gearList, function(gear)
     if _.isFunction(gear) then
       gear = injector:inject(gear)
     end
