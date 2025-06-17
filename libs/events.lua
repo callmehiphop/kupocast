@@ -8,16 +8,21 @@ function EventEmitter:new()
 end
 
 function EventEmitter:emit(event, ...)
-  local listeners = self._events[event] or {}
+  local listeners = self._events[event]
+  if not listeners then
+    return false
+  end
   for _, listener in ipairs(listeners) do
     listener.callback(...)
   end
+  return true
 end
 
 function EventEmitter:on(event, callback)
   local listeners = self._events[event] or {}
   table.insert(listeners, { callback = callback })
   self._events[event] = listeners
+  return self
 end
 
 function EventEmitter:once(event, callback)
@@ -28,6 +33,7 @@ function EventEmitter:once(event, callback)
   end
   table.insert(listeners, { callback = proxy, original = callback })
   self._events[event] = listeners
+  return self
 end
 
 function EventEmitter:off(event, callback)
@@ -40,10 +46,12 @@ function EventEmitter:off(event, callback)
     end
   end
   self._events[event] = (#filtered and filtered) or nil
+  return self
 end
 
 function EventEmitter:removeAllListeners()
   self._events = {}
+  return self
 end
 
 return EventEmitter
