@@ -2,7 +2,7 @@ local Fonts = require('fonts')
 local _ = require('kupocast/libs/luadash')
 local log = require('kupocast/src/logger')
 
-local DEFAULT_FONT = {
+local FONT_OPTIONS = {
   visible = true,
   font_family = 'Consolas',
   font_height = 13,
@@ -18,25 +18,23 @@ local Display = {}
 
 Display.__index = Display
 
-function Display.red(text)
+function Display.green(text)
   return string.format('|cFF00FF00|%s|r', text)
 end
 
-function Display.green(text)
+function Display.red(text)
   return string.format('|cFFFF0000|%s|r', text)
 end
 
-function Display:new(config)
+function Display:new(store, fields)
   local display = setmetatable({}, self)
-  display.store = config.store
-  display.fields = config.fields
-  display.callback = config.callback or 'kupocast_display_cb'
-  display.fontOptions = _.assign({}, DEFAULT_FONT, config.font or {})
+  display.store = store
+  display.fields = fields
   return display
 end
 
 function Display:destroy()
-  ashita.events.unregister('d3d_present', self.callback)
+  ashita.events.unregister('d3d_present', 'kupo_display_cb')
   if self.font then
     self.font:destroy()
     self.font = nil
@@ -59,9 +57,9 @@ function Display:start()
   if self.font then
     return log.warn('Display already started')
   end
-  self.font = Fonts.new(self.fontOptions)
+  self.font = Fonts.new(FONT_OPTIONS)
   local update = _.bind(self.update, self)
-  ashita.events.unregister('d3d_present', self.callback, update)
+  ashita.events.register('d3d_present', 'kupo_display_cb', update)
 end
 
 function Display:update()
