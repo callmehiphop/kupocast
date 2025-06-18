@@ -118,7 +118,7 @@ local DamageTaken = {
   Feet = 'Dst. Leggings +1',
   Ring2 = function(jellyRing)
     return jellyRing and 'Jelly Ring'
-  end
+  end,
 }
 
 local ElementalSkillLow = { Main = Staff, Sub = '' }

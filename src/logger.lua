@@ -11,7 +11,7 @@ local Colors = {
 }
 
 local function log(color, ...)
-  local messages = _.map({...}, function(message)
+  local messages = _.map({ ... }, function(message)
     return dump(message)
   end)
   local output = _.join(messages, ' ')
