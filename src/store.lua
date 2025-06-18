@@ -4,22 +4,24 @@ local utils = require('kupocast/src/utils')
 
 local Store = {}
 
-setmetatable(Store, {
-  __index = EventEmitter,
-  __call = function(config)
-    return Store:new(config)
-  end,
-})
+-- Store.__index = Store
+setmetatable(Store, { __index = EventEmitter })
 
+-- YUCK: gotta do better
 Store.__index = function(t, k)
-  if not _.isNil(t.state[k]) then
-    return t.state[k]
-  elseif _.isFunction(t.getters[k]) then
-    return t.getters[k](t)
-  elseif _.isFunction(t.action[k]) then
-    return t.actions[k]
+  local state = rawget(t, 'state')
+  if state[k] then
+    return state[k]
   end
-  return rawget(t, k)
+  local getters = rawget(t, 'getters')
+  if getters[k] then
+    return getters[k](t)
+  end
+  local actions = rawget(t, 'actions')
+  if actions[k] then
+    return actions[k]
+  end
+  return rawget(t, k) or Store[k] or EventEmitter[k]
 end
 
 Store.__newindex = function(t, k, v)
@@ -32,10 +34,9 @@ function Store:new(config)
   config = config or {}
 
   local store = EventEmitter:new()
-  store.state = _.assign({}, config.state or {})
-  store.getters = _.assign({}, config.getters or {})
-  store.actions = _.assign({}, config.actions or {})
-  store._subscriptions = {}
+  store.state = _.assign({}, config.state)
+  store.getters = _.assign({}, config.getters)
+  store.actions = _.assign({}, config.actions)
   setmetatable(store, self)
 
   _.forEach(config.cycles, function(values, key)
@@ -47,12 +48,6 @@ function Store:new(config)
   end)
 
   return store
-end
-
-function Store:_onStateChange(key, value)
-  _.forEach(self._subscriptions, function(subscriber)
-    subscriber(key, value)
-  end)
 end
 
 function Store:createCycle(key, values)
