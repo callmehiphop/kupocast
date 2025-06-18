@@ -32,7 +32,7 @@ function equipment.disabled(disabled, slots)
   end)
 end
 
-local function equipWith(Equip, setOrSlot, maybeGear)
+function equipment.equipWith(Equip, setOrSlot, maybeGear)
   local profile = gProfile
   local set = setOrSlot
 
@@ -56,14 +56,6 @@ local function equipWith(Equip, setOrSlot, maybeGear)
     end
     Equip(slot, gear)
   end)
-end
-
-function equipment.equip(setOrSlot, gear)
-  return equipWith(gFunc.Equip, setOrSlot, gear)
-end
-
-function equipment.interimEquip(setOrSlot, gear)
-  return equipWith(gFunc.InterimEquip, setOrSlot, gear)
 end
 
 function equipment.resolve(gearList)

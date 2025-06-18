@@ -126,7 +126,7 @@ return {
 
     profile:on('midcast', function(action)
       if sets.InterimCast then
-        kupo.equipInterim(sets.InterimCast)
+        kupo.interimEquip(sets.InterimCast)
       end
       if sets.Recast then
         kupo.equip(sets.Recast)

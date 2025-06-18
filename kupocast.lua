@@ -12,7 +12,8 @@ return {
   combine = equipment.combine,
   disable = _.bind(equipment.disabled, true),
   enable = _.bind(equipment.disabled, false),
-  equip = equipment.equip,
-  equipInterim = equipment.equipInterim,
+  equip = _.bind(equipment.equipWith, gFunc.Equip),
+  forceEquip = _.bind(equipment.equipWith, gFunc.ForceEquip),
+  interimEquip = _.bind(equipment.equipWith, gFunc.InterimEquip),
   exec = utils.exec,
 }
