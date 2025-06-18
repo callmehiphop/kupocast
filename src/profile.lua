@@ -131,13 +131,8 @@ function Profile:_setLockStyle(set)
 end
 
 function Profile:_watch(watchers)
-  watchers = _.map(watchers, function(callback)
-    return utils.debounce(callback, 300)
-  end)
-  self.store:subscribe(function(key, value)
-    if _.isFunction(watchers[key]) then
-      watchers[key](value)
-    end
+  _.forEach(watchers, function(watcher, key)
+    self.store:watch(key, watcher)
   end)
 end
 
