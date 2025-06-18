@@ -1,4 +1,4 @@
-local kupo = require('kupocast')
+local kupo = require('kupocast/kupocast')
 local AutoEquipPlugin = require('kupocast/plugins/autoequip')
 local ConquestPlugin = require('kupocast/plugins/conquest')
 

@@ -1,4 +1,4 @@
-local kupo = require('kupocast')
+local kupo = require('kupocast/kupocast')
 local AutoEquipPlugin = require('kupocast/plugins/autoequip')
 local PetPlugin = require('kupocast/plugins/pet')
 
