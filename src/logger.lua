@@ -1,5 +1,6 @@
 local chat = require('chat')
 local _ = require('kupocast/libs/luadash')
+local json = require('kupocast/libs/json')
 
 local Colors = {
   INFO = 106,
@@ -9,8 +10,17 @@ local Colors = {
   WARN = 104,
 }
 
-local function log(color, message)
-  print(chat.header('kupocast') .. chat.color1(color, message))
+local function stringify(message)
+  if _.isTable(message) then
+    return json.stringify(message)
+  end
+  return tostring(message)
+end
+
+local function log(color, ...)
+  local messages = _.map({...}, stringify)
+  local output = _.join(messages, ' ')
+  print(chat.header('kupocast') .. chat.color1(color, output))
 end
 
 return {
