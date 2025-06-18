@@ -1,4 +1,4 @@
-local kupo = require('kupocast')
+local kupo = require('kupocast/kupocast')
 local AutoEquipPlugin = require('kupocast/plugins/autoequip')
 local ConquestPlugin = require('kupocast/plugins/conquest')
 local ObiPlugin = require('kupocast/plugins/obi')
@@ -108,7 +108,6 @@ end
 --- Core Equipment Sets (Reusable Components)
 ---
 local DamageTaken = {
-  Main = staves.Earth,
   Head = 'Darksteel Cap +1',
   Ear1 = "Merman's Earring",
   Ear2 = "Merman's Earring",
@@ -117,6 +116,9 @@ local DamageTaken = {
   Back = 'Umbra Cape',
   Legs = 'Dst. Subligar +1',
   Feet = 'Dst. Leggings +1',
+  Ring2 = function(jellyRing)
+    return jellyRing and 'Jelly Ring'
+  end
 }
 
 local ElementalSkillLow = { Main = Staff, Sub = '' }
@@ -384,7 +386,9 @@ sets.Idle.Default = kupo.combine(Refresh, Movement, {
   Waist = "Duelist's Belt",
   Feet = 'Dls. Boots +1',
 })
-sets.Idle.Tank = kupo.combine(DamageTaken, Refresh, Movement)
+sets.Idle.Tank = kupo.combine(DamageTaken, Refresh, Movement, {
+  Main = staves.Earth,
+})
 
 sets.Engaged = sets:weave('weapon', 'mode')
 -- Weapon-specific engaged sets

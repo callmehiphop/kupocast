@@ -1,4 +1,4 @@
-local kupo = require('kupocast')
+local kupo = require('kupocast/kupocast')
 local AutoEquipPlugin = require('kupocast/plugins/autoequip')
 local ConquestPlugin = require('kupocast/plugins/conquest')
 local ObiPlugin = require('kupocast/plugins/obi')
@@ -267,7 +267,6 @@ sets.Elemental.High = kupo.combine(sets.Elemental.Medium, {
 sets.Nuke = sets:weave('accuracy', 'mode')
 -- accuracy sets
 sets.Nuke.Low = kupo.combine(INT, MAB, {
-  Main = Staff,
   Waist = Obi,
   Hands = function(magicBurst)
     return magicBurst and 'Src. Gloves +1'
@@ -286,7 +285,9 @@ sets.Nuke.High = kupo.combine(sets.Nuke.Medium, {
   Legs = 'Mahatma Slops',
 })
 -- mode sets
+sets.Nuke.Default = { Main = Staff }
 sets.Nuke.Enmity = kupo.combine(INT, {
+  Main = Staff,
   Ammo = 'Hedgehog Bomb',
   Waist = "Penitent's Rope",
 })
