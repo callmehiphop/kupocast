@@ -11,13 +11,7 @@ local utils = require('kupocast/src/utils')
 local Profile = {}
 
 Profile.__index = Profile
-
-setmetatable(Profile, {
-  __index = EventEmitter,
-  __call = function(config)
-    return Profile:new(config)
-  end,
-})
+setmetatable(Profile, { __index = EventEmitter })
 
 function Profile:new(config)
   config = config or {}
@@ -29,7 +23,7 @@ function Profile:new(config)
   profile.injector = Injector:new(profile.store)
   profile.Sets = SetTable:new(profile.injector)
 
-  profile.OnLoad = _.bind(profile.emit, profile, 'load')
+  profile.OnLoad = _.bind(profile._onload, profile)
   profile.OnUnload = _.bind(profile._onunload, profile)
   profile.HandleCommand = _.bind(profile._oncommand, profile)
   profile.HandleDefault = _.bind(profile._ondefault, profile)
@@ -48,6 +42,7 @@ function Profile:new(config)
     profile:_setLockStyle(config.lockStyle)
   end
   if config.display then
+    print('starting display')
     profile:_createDisplay(config.display)
   end
   if config.bind then
@@ -76,7 +71,7 @@ end
 function Profile:_installPlugins(plugins)
   _.forEach(plugins, function(plugin)
     local options
-    if #plugin then
+    if #plugin == 2 then
       plugin, options = plugin[1], plugin[2]
     end
     self:use(plugin, options)
@@ -100,6 +95,10 @@ function Profile:_ondefault()
   local player = gData.GetPlayer()
   self.store.player = player
   self:emit('default', player)
+end
+
+function Profile:_onload()
+  self:emit('load')
 end
 
 function Profile:_onranged(event)
