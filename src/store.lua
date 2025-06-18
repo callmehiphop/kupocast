@@ -21,6 +21,7 @@ end
 
 Store.__newindex = function(t, k, v)
   t.state[k] = v
+  t:_onStateChange(k, v)
 end
 
 function Store:new(config)
@@ -30,6 +31,7 @@ function Store:new(config)
   store.state = _.assign({}, config.state or {})
   store.getters = _.assign({}, config.getters or {})
   store.actions = _.assign({}, config.actions or {})
+  store._subscriptions = {}
   setmetatable(store, self)
 
   _.forEach(config.cycles, function(values, key)
@@ -41,6 +43,12 @@ function Store:new(config)
   end)
 
   return store
+end
+
+function Store:_onStateChange(key, value)
+  _.forEach(self._subscriptions, function(subscriber)
+    subscriber(key, value)
+  end)
 end
 
 function Store:createCycle(key, values)
@@ -59,6 +67,10 @@ function Store:createToggle(key, value)
     self[key] = value
     return value
   end
+end
+
+function Store:subscribe(subscriber)
+  table.insert(self._subscriptions, subscriber)
 end
 
 return Store

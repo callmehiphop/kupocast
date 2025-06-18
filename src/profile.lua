@@ -41,17 +41,20 @@ function Profile:new(config)
   profile.HandlePreshot = _.bind(profile._onranged, profile, 'preshot')
   profile.HandleMidshot = _.bind(profile._onranged, profile, 'midshot')
 
-  if config.bind then
-    profile:_bindHotKeys(config.bind)
-  end
-  if config.display then
-    profile:_createDisplay(config.display)
+  if config.plugins then
+    profile:_installPlugins(config.plugins)
   end
   if config.lockStyle then
     profile:_setLockStyle(config.lockStyle)
   end
-  if config.plugins then
-    profile:_installPlugins(config.plugins)
+  if config.display then
+    profile:_createDisplay(config.display)
+  end
+  if config.bind then
+    profile:_bindHotKeys(config.bind)
+  end
+  if config.watch then
+    profile:_watch(config.watch)
   end
 
   return profile
@@ -124,6 +127,17 @@ function Profile:_setLockStyle(set)
       end
       gFunc.LockStyle(set)
     end)
+  end)
+end
+
+function Profile:_watch(watchers)
+  watchers = _.map(watchers, function(callback)
+    return utils.debounce(callback, 300)
+  end)
+  self.store:subscribe(function(key, value)
+    if _.isFunction(watchers[key]) then
+      watchers[key](value)
+    end
   end)
 end
 

@@ -203,7 +203,7 @@ _.upperFirst = function(str)
 end
 
 _.unshift = function(collection, ...)
-  _.forEachRight({...}, function(value)
+  _.forEachRight({ ... }, function(value)
     table.insert(collection, 1, value)
   end)
   return collection

@@ -66,7 +66,6 @@ local profile = kupo.Profile({
   },
 })
 
-
 ---
 --- Set Definitions
 ---
