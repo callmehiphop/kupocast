@@ -54,7 +54,7 @@ _.filter = function(collection, iteratee)
 end
 
 _.forEach = function(collection, iteratee)
-  if type(collection) == 'table' then
+  if _.isTable(collection) then
     for key, value in pairs(collection) do
       if iteratee(value, key) == false then
         return collection -- lua doesnt have a break
@@ -145,9 +145,8 @@ _.isTable = function(value)
   return type(value) == 'table'
 end
 
-_.join = function(tbl, separator)
-  separator = separator or ','
-  return table.concat(tbl, separator)
+_.join = function(t, separator)
+  return table.concat(t, separator or ',')
 end
 
 _.keys = function(object)
@@ -199,7 +198,7 @@ _.transform = function(object, iteratee, accumulator)
 end
 
 _.upperFirst = function(str)
-  return (str:gsub('^%1', string.upper))
+  return (str:gsub('^%l', string.upper))
 end
 
 _.unshift = function(collection, ...)
