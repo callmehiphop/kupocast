@@ -6,8 +6,6 @@ local Store = require('kupocast/src/store')
 local utils = require('kupocast/src/utils')
 
 return {
-  Profile = Profile,
-  Store = Store,
   log = logger,
   combine = equipment.combine,
   disable = _.bind(equipment.disabled, true),
@@ -16,4 +14,10 @@ return {
   forceEquip = _.bind(equipment.equipWith, gFunc.ForceEquip),
   interimEquip = _.bind(equipment.equipWith, gFunc.InterimEquip),
   exec = utils.exec,
+  Profile = function(...)
+    return Profile:new(...)
+  end,
+  Store = function(...)
+    return Store:new(...)
+  end,
 }
