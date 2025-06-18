@@ -202,8 +202,8 @@ _.upperFirst = function(str)
   return (str:gsub('^%1', string.upper))
 end
 
-_.unshift = function(collection, values)
-  _.forEachRight(values, function(value)
+_.unshift = function(collection, ...)
+  _.forEachRight({...}, function(value)
     table.insert(collection, 1, value)
   end)
   return collection
