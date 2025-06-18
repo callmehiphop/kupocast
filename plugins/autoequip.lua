@@ -1,4 +1,4 @@
-local kupo = require('kupocast')
+local kupo = require('kupocast/kupocast')
 
 local fastCastGearValues = {
   ['Wlk. Chapeau +1'] = 0.10,
