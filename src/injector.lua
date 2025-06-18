@@ -35,9 +35,9 @@ end
 function Injector:inject(func)
   local deps = self.getDeps(func)
   local values = _.map(deps, _.bind(self.get, self))
-  local result, err = pcall(func, table.unpack(values))
-  if err then
-    log.error('Dependency injection failed. Reason:\n' .. err)
+  local success, result = pcall(func, table.unpack(values))
+  if not success then
+    log.error('Dependency injection failed. Reason:', result)
   end
   return result
 end
