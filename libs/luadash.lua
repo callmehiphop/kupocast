@@ -19,7 +19,7 @@ _.bind = function(func, ...)
 end
 
 _.castArray = function(value)
-  if type(value) == 'table' and #value then
+  if _.isArrayLike(value) then
     return value
   end
   return { value }
@@ -43,7 +43,7 @@ _.filter = function(collection, iteratee)
   local filtered = {}
   _.forEach(collection, function(value, key)
     if iteratee(value, key) then
-      if type(key) == 'number' then
+      if _.isNumber(key) then
         table.insert(filtered, value)
       else
         filtered[key] = value
@@ -65,7 +65,7 @@ _.forEach = function(collection, iteratee)
 end
 
 _.forEachRight = function(collection, iteratee)
-  if type(collection) == 'table' then
+  if _.isTable(collection) then
     if not #collection then
       return _.forEachRight(_.keys(collection), function(key)
         return iteratee(collection[key], key)
