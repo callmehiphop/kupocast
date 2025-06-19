@@ -8,12 +8,12 @@ setmetatable(Store, { __index = EventEmitter })
 Store.__index = function(t, k)
   if t.state[k] ~= nil then
     return t.state[k]
-  elseif t.getters[k] then
+  elseif _.isFunction(t.getters[k]) then
     return t.getters[k](t)
-  elseif t.actions[k] then
+  elseif _.isFunction(t.actions[k]) then
     return t.actions[k]
   end
-  return rawget(t, k) or EventEmitter[k]
+  return rawget(t, k) or Store[k] or EventEmitter[k]
 end
 
 Store.__newindex = function(t, k, v)
