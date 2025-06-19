@@ -21,7 +21,7 @@ end
 
 function SetMatrix:build(...)
   local sets = _.map({ ... }, function(key)
-    return self[key] or {}
+    return self[key] or self.Default or {}
   end)
   if #sets > 1 then
     return equipment.combine(table.unpack(sets))
