@@ -1,6 +1,5 @@
 local _ = require('kupocast/libs/luadash')
 local EventEmitter = require('kupocast/libs/events')
-local utils = require('kupocast/src/utils')
 
 local Store = {}
 setmetatable(Store, { __index = EventEmitter })
@@ -60,16 +59,15 @@ function Store:createToggle(key, value)
   end
 end
 
-function Store:subscribe(subscriber)
-  self:on('statechange', subscriber)
-  return _.bind(self.off, self, 'statechange', subscriber)
+function Store:subscribe(callback)
+  self:on('statechange', callback)
+  return _.bind(self.off, self, 'statechange', callback)
 end
 
 function Store:watch(key, callback)
   local event = 'statechange:' .. tostring(key)
-  local debounced = utils.debounce(callback, 250)
-  self:on(event, debounced)
-  return _.bind(self.off, self, event, debounced)
+  self:on(event, callback)
+  return _.bind(self.off, self, event, callback)
 end
 
 return Store

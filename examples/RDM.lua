@@ -48,21 +48,21 @@ local profile = kupo.Profile({
     l = store.toggleWeaponLock,
   },
   watch = {
-    weapon = function()
+    weapon = kupo.debounce(250, function()
       if store.weaponLock then
         kupo.enable({ 'Main', 'Sub' })
         kupo.forceEquip('Engaged')
         kupo.disable({ 'Main', 'Sub' })
       end
-    end,
-    weaponLock = function(locked)
+    end),
+    weaponLock = kupo.debounce(250, function(locked)
       if locked then
         kupo.forceEquip('Engaged')
         kupo.disable({ 'Main', 'Sub' })
       else
         kupo.enable({ 'Main', 'Sub' })
       end
-    end,
+    end),
   },
 })
 

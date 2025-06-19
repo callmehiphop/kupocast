@@ -13,6 +13,7 @@ return {
   equip = _.bind(equipment.equipWith, gFunc.Equip),
   forceEquip = _.bind(equipment.equipWith, gFunc.ForceEquip),
   interimEquip = _.bind(equipment.equipWith, gFunc.InterimEquip),
+  debounce = utils.debounce,
   exec = utils.exec,
   Profile = Profile.new,
   Store = Store.new,

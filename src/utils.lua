@@ -2,9 +2,14 @@ local _ = require('kupocast/libs/luadash')
 
 local utils = {}
 
-function utils.debounce(func, delay)
+function utils.debounce(delay, func)
   local state = nil
-  delay = (delay or 0) / 1000
+
+  if _.isFunction(delay) then
+    func, delay = delay, 0
+  end
+
+  delay = delay / 1000
 
   return function(...)
     local args = { ... }
