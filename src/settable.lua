@@ -11,11 +11,11 @@ function SetTable.new(injector)
 end
 
 function SetTable:select(key)
-  return SetMatrix:new(self._injector, { key })
+  return SetMatrix.new(self._injector, { key })
 end
 
 function SetTable:weave(...)
-  return SetMatrix:new(self._injector, { ... })
+  return SetMatrix.new(self._injector, { ... })
 end
 
 return SetTable

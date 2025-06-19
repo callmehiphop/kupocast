@@ -25,7 +25,7 @@ end
 function Store.new(config)
   config = config or {}
 
-  local store = EventEmitter:new()
+  local store = EventEmitter.new()
   store.state = _.assign({}, config.state)
   store.getters = _.assign({}, config.getters)
   store.actions = _.assign({}, config.actions)
