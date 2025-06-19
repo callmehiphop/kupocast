@@ -106,7 +106,9 @@ _.isBoolean = function(value)
 end
 
 _.isEmpty = function(value)
-  if type(value) ~= 'table' then
+  if _.isString(value) then
+    return not #value
+  elseif not _.isTable(value) then
     return true
   end
   for k, v in pairs(value) do
