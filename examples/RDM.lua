@@ -416,6 +416,7 @@ sets.Engaged.Default = kupo.combine(Haste, Refresh, {
   Back = "Forager's Mantle",
 })
 sets.Engaged.Accuracy = kupo.combine(sets.Engaged.Default, {
+  Body = 'Scp. Harness +1',
   Ring1 = "Toreador's Ring",
 })
 sets.Engaged.Tank = kupo.combine(DamageTaken, Refresh, {
