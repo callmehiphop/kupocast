@@ -15,7 +15,6 @@ local FONT_OPTIONS = {
 }
 
 local Display = {}
-
 Display.__index = Display
 
 function Display.green(text)
@@ -26,8 +25,8 @@ function Display.red(text)
   return string.format('|cFFFF0000|%s|r', text)
 end
 
-function Display:new(store, fields)
-  local display = setmetatable({}, self)
+function Display.new(store, fields)
+  local display = setmetatable({}, Display)
   display.store = store
   display.fields = fields
   return display

@@ -1,8 +1,8 @@
 local EventEmitter = {}
 EventEmitter.__index = EventEmitter
 
-function EventEmitter:new()
-  local ee = setmetatable({}, self)
+function EventEmitter.new()
+  local ee = setmetatable({}, EventEmitter)
   ee._events = {}
   return ee
 end

@@ -2,7 +2,6 @@ local _ = require('kupocast/libs/luadash')
 local utils = require('kupocast/src/utils')
 
 local Input = {}
-
 Input.__index = Input
 
 function Input.normalize(key, options)
@@ -18,8 +17,8 @@ function Input.normalize(key, options)
   return key, options
 end
 
-function Input:new(config)
-  local input = setmetatable({}, self)
+function Input.new(config)
+  local input = setmetatable({}, Input)
 
   input.bindings = {}
   input.commands = {}

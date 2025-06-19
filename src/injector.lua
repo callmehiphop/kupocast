@@ -3,7 +3,6 @@ local memo = require('kupocast/libs/memoize')
 local log = require('kupocast/src/logger')
 
 local Injector = {}
-
 Injector.__index = Injector
 
 local function getParams(func)
@@ -15,8 +14,8 @@ local function getParams(func)
   return params
 end
 
-function Injector:new(store)
-  local injector = setmetatable({}, self)
+function Injector.new(store)
+  local injector = setmetatable({}, Injector)
   injector.store = store
   injector.cache = {}
   injector.getDeps = memo(getParams, injector.cache)
@@ -36,10 +35,10 @@ function Injector:inject(func)
   local deps = self.getDeps(func)
   local values = _.map(deps, _.bind(self.get, self))
   local success, result = pcall(func, table.unpack(values))
-  if not success then
-    log.error('Dependency injection failed. Reason:', result)
+  if success then
+    return result
   end
-  return result
+  log.error('Dependency injection failed. Reason:', result)
 end
 
 function Injector:destroy()

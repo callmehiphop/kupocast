@@ -3,25 +3,17 @@ local EventEmitter = require('kupocast/libs/events')
 local utils = require('kupocast/src/utils')
 
 local Store = {}
-
--- Store.__index = Store
 setmetatable(Store, { __index = EventEmitter })
 
--- YUCK: gotta do better
 Store.__index = function(t, k)
-  local state = rawget(t, 'state')
-  if state[k] then
-    return state[k]
+  if t.state[k] ~= nil then
+    return t.state[k]
+  elseif t.getters[k] then
+    return t.getters[k](t)
+  elseif t.actions[k] then
+    return t.actions[k]
   end
-  local getters = rawget(t, 'getters')
-  if getters[k] then
-    return getters[k](t)
-  end
-  local actions = rawget(t, 'actions')
-  if actions[k] then
-    return actions[k]
-  end
-  return rawget(t, k) or Store[k] or EventEmitter[k]
+  return rawget(t, k) or EventEmitter[k]
 end
 
 Store.__newindex = function(t, k, v)
@@ -30,14 +22,14 @@ Store.__newindex = function(t, k, v)
   t:emit('statechange:' .. tostring(k), v)
 end
 
-function Store:new(config)
+function Store.new(config)
   config = config or {}
 
   local store = EventEmitter:new()
   store.state = _.assign({}, config.state)
   store.getters = _.assign({}, config.getters)
   store.actions = _.assign({}, config.actions)
-  setmetatable(store, self)
+  setmetatable(store, Store)
 
   _.forEach(config.cycles, function(values, key)
     store:createCycle(key, values)

@@ -2,13 +2,12 @@ local _ = require('kupocast/libs/luadash')
 local SetMatrix = require('kupocast/src/setmatrix')
 
 local SetTable = {}
-
 SetTable.__index = SetTable
 
-function SetTable:new(injector)
-  local sets = {}
+function SetTable.new(injector)
+  local sets = setmetatable({}, SetTable)
   sets._injector = injector
-  return setmetatable(sets, self)
+  return sets
 end
 
 function SetTable:select(key)

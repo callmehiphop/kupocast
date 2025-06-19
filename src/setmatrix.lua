@@ -10,8 +10,8 @@ SetMatrix.__pairs = function(t)
   return pairs(t:get())
 end
 
-function SetMatrix:new(injector, keys)
-  local matrix = setmetatable({}, self)
+function SetMatrix.new(injector, keys)
+  local matrix = setmetatable({}, SetMatrix)
   matrix._injector = injector
   matrix._keys = keys
   matrix._cache = {}

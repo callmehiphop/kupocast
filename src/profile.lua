@@ -9,19 +9,18 @@ local Store = require('kupocast/src/store')
 local utils = require('kupocast/src/utils')
 
 local Profile = {}
-
-Profile.__index = Profile
 setmetatable(Profile, { __index = EventEmitter })
+Profile.__index = Profile
 
-function Profile:new(config)
+function Profile.new(config)
   config = config or {}
 
-  local profile = EventEmitter:new()
-  setmetatable(profile, self)
+  local profile = EventEmitter.new()
+  setmetatable(profile, Profile)
 
-  profile.store = config.store or Store:new()
-  profile.injector = Injector:new(profile.store)
-  profile.Sets = SetTable:new(profile.injector)
+  profile.store = config.store or Store.new()
+  profile.injector = Injector.new(profile.store)
+  profile.Sets = SetTable.new(profile.injector)
 
   profile.OnLoad = _.bind(profile._onload, profile)
   profile.OnUnload = _.bind(profile._onunload, profile)
@@ -56,14 +55,14 @@ function Profile:new(config)
 end
 
 function Profile:_bindHotKeys(options)
-  local input = Input:new(options)
+  local input = Input.new(options)
   self:once('load', _.bind(input.bindAll, input))
   self:once('unload', _.bind(input.unbindAll, input))
   self:on('command', _.bind(input.invoke, input))
 end
 
 function Profile:_createDisplay(options)
-  local display = Display:new(self.store, options)
+  local display = Display.new(self.store, options)
   self:once('load', _.bind(display.start, display))
   self:once('unload', _.bind(display.destroy, display))
 end
@@ -136,14 +135,13 @@ function Profile:_watch(watchers)
 end
 
 function Profile:use(plugin, options)
-  local status, err = pcall(plugin.install, self, options)
-  if err then
-    log.error('Unable to install ' .. plugin.name)
-    log.error(err)
-  else
+  local success, result = pcall(plugin.install, self, options)
+  if success then
     log.success(plugin.name .. ' loaded')
+    return result
   end
-  return status
+  log.error('Unable to install ' .. plugin.name)
+  log.error(result)
 end
 
 return Profile

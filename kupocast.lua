@@ -14,10 +14,6 @@ return {
   forceEquip = _.bind(equipment.equipWith, gFunc.ForceEquip),
   interimEquip = _.bind(equipment.equipWith, gFunc.InterimEquip),
   exec = utils.exec,
-  Profile = function(...)
-    return Profile:new(...)
-  end,
-  Store = function(...)
-    return Store:new(...)
-  end,
+  Profile = Profile.new,
+  Store = Store.new,
 }
