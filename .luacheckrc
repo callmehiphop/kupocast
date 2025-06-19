@@ -1,1 +1,10 @@
-globals = {'AshitaCore', 'ashita', 'gData', 'gFunc', 'gProfile', 'gState'}
+globals = {
+  'T',
+  'AshitaCore',
+  'ashita',
+  'gData',
+  'gFunc',
+  'gProfile',
+  'gState',
+  'struct',
+}
