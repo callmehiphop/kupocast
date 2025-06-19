@@ -130,7 +130,7 @@ sets.Idle = sets:select('mode')
 sets.Idle.Default = { Hands = 'remove', Feet = 'remove' }
 sets.Idle.Tank = DamageTaken
 
-sets.Engaged = sets:wave('weapon', 'mode')
+sets.Engaged = sets:weave('weapon', 'mode')
 -- engaged weapon sets
 sets.Engaged['Axe/Club'] = {
   Main = 'Maneater',
