@@ -17,14 +17,12 @@ end
 function Injector.new(store)
   local injector = setmetatable({}, Injector)
   injector.store = store
-  injector.cache = {}
-  injector.getDeps = memo(getParams, injector.cache)
+  injector.getDeps = memo(getParams)
   return injector
 end
 
-function Injector:clearCache()
-  self.cache.children = nil
-  self.cache.results = nil
+function Injector:destroy()
+  self.getDeps = nil
 end
 
 function Injector:get(key)
@@ -32,6 +30,9 @@ function Injector:get(key)
 end
 
 function Injector:inject(func)
+  if not self.getDeps then
+    error('Attempting to inject from after destroy')
+  end
   local deps = self.getDeps(func)
   local values = _.map(deps, _.bind(self.get, self))
   local success, result = pcall(func, table.unpack(values))
@@ -39,10 +40,6 @@ function Injector:inject(func)
     return result
   end
   log.error('Dependency injection failed. Reason:', result)
-end
-
-function Injector:destroy()
-  self:clearCache()
 end
 
 return Injector
