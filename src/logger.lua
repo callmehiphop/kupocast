@@ -12,7 +12,7 @@ local Colors = {
 
 local function log(color, ...)
   local messages = _.map({ ... }, function(message)
-    return dump(message)
+    return (_.isTable(message) and dump(message)) or tostring(message)
   end)
   local output = _.join(messages, ' ')
   print(chat.header('kupocast') .. chat.color1(color, output))
