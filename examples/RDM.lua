@@ -158,9 +158,8 @@ local FastCast = {
 local Haste = {
   Body = 'Nashira manteel',
   Hands = 'Dusk Gloves',
-  Ring1 = 'Blitz Ring',
-  Waist = 'Swift belt',
-  Legs = 'Nashira seraweels',
+  Waist = 'Swift Belt',
+  Legs = 'Nashira Seraweels',
   Feet = 'Dusk Ledelsens',
 }
 
@@ -412,12 +411,12 @@ sets.Engaged.Default = kupo.combine(Haste, Refresh, {
   Ammo = 'Tiphia Sting',
   Neck = 'Peacock Amulet',
   Ear2 = "Merman's Earring",
+  Ring1 = "Toreador's Ring",
   Ring2 = "Toreador's Ring",
   Back = "Forager's Mantle",
 })
 sets.Engaged.Accuracy = kupo.combine(sets.Engaged.Default, {
   Body = 'Scp. Harness +1',
-  Ring1 = "Toreador's Ring",
 })
 sets.Engaged.Tank = kupo.combine(DamageTaken, Refresh, {
   Ammo = 'Happy Egg',
