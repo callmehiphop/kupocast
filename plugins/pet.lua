@@ -3,7 +3,7 @@ return {
   install = function(profile)
     local store = profile.store
 
-    profile:on('default', function()
+    profile:pon('default', function()
       local petAction = gData.GetPetAction()
       store.state.petAction = petAction
       if petAction then

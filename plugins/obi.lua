@@ -44,7 +44,7 @@ return {
       return state.obiPotency > 0
     end
 
-    profile:on('precast', function()
+    profile:pon('precast', function()
       store.environment = gData.GetEnvironment()
     end)
   end,

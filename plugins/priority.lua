@@ -13,7 +13,7 @@ return {
       gFunc.EvaluateLevels(profile.Sets, store.playerLevel)
     end)
 
-    profile:on('default', function()
+    profile:pon('default', function()
       local level = getLevel()
       if store.playerLevel ~= level then
         store.playerLevel = level
