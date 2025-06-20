@@ -41,7 +41,6 @@ function Profile.new(config)
     profile:_setLockStyle(config.lockStyle)
   end
   if config.display then
-    print('starting display')
     profile:_createDisplay(config.display)
   end
   if config.bind then
