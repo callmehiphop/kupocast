@@ -14,6 +14,13 @@ local store = kupo.Store({
     dayElement = function()
       return gData.GetEnvironment().DayElement
     end,
+    -- TODO: maybe these should go in a Time plugin?
+    isDayTime = function(state)
+      return state.time.hour > 5 and state.time.hour < 18
+    end,
+    time = function()
+      return gData.GetTimestamp()
+    end,
   },
 })
 
