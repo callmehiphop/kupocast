@@ -2,6 +2,7 @@ local kupo = require('kupocast/kupocast')
 local AutoEquipPlugin = require('kupocast/plugins/autoequip')
 local ConquestPlugin = require('kupocast/plugins/conquest')
 local ObiPlugin = require('kupocast/plugins/obi')
+local SpellTagsPlugin = require('kupocast/plugins/spelltags')
 
 local store = kupo.Store({
   state = {
@@ -29,7 +30,7 @@ local store = kupo.Store({
 })
 
 local profile = kupo.Profile({
-  plugins = { ConquestPlugin, ObiPlugin, AutoEquipPlugin },
+  plugins = { AutoEquipPlugin, ConquestPlugin, ObiPlugin, SpellTagsPlugin },
   store = store,
   lockStyle = 'LockStyle',
   display = {
@@ -203,7 +204,13 @@ sets.Dark = kupo.combine(INT, {
   end,
 })
 
-sets.Barspell = {
+sets.AbsorbPoints = kupo.combine(sets.Dark, {
+  Main = function(environment)
+    return environment.WeatherElement == 'Dark' and "Diabolos's Pole"
+  end,
+})
+
+sets.BarSpell = {
   Neck = 'Enhancing Torque',
   Back = 'Merciful Cape',
 }
@@ -218,14 +225,6 @@ sets.Dia = kupo.combine(MAB, {
 })
 
 sets.Spikes = kupo.combine(INT, MAB)
-
-sets.Aspir = kupo.combine(sets.Dark, {
-  Main = function(environment)
-    return environment.WeatherElement == 'Dark' and "Diabolos's Pole"
-  end,
-})
-
-sets.Drain = sets.Aspir
 
 sets.Stoneskin = kupo.combine(MND, {
   Neck = 'Stone Gorget',

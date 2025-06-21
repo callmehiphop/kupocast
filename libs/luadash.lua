@@ -165,6 +165,10 @@ _.keys = function(object)
   return keys
 end
 
+_.last = function(collection)
+  return collection[#collection]
+end
+
 _.map = function(collection, iteratee)
   local mapped = {}
   _.forEach(collection, function(value, key)

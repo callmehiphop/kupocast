@@ -2,6 +2,7 @@ local kupo = require('kupocast/kupocast')
 local AutoEquipPlugin = require('kupocast/plugins/autoequip')
 local ConquestPlugin = require('kupocast/plugins/conquest')
 local ObiPlugin = require('kupocast/plugins/obi')
+local SpellTagsPlugin = require('kupocast/plugins/spelltags')
 
 ---
 --- Store Definition
@@ -30,7 +31,7 @@ local store = kupo.Store({
 --- Profile Definition
 ---
 local profile = kupo.Profile({
-  plugins = { ConquestPlugin, ObiPlugin, AutoEquipPlugin },
+  plugins = { AutoEquipPlugin, ConquestPlugin, ObiPlugin, SpellTagsPlugin },
   store = store,
   lockStyle = 'LockStyle',
   display = {
@@ -148,6 +149,12 @@ local EnfeeblingSkillHigh = kupo.combine(EnfeeblingSkillMedium, {
     return conquestOutOfControl and 'Mst.Cst. Bracelets'
   end,
 })
+
+local EnhancingSkill = {
+  Neck = 'Enhancing torque',
+  Hands = 'Dls. gloves +1',
+  Legs = "Warlock's tights",
+}
 
 local FastCast = {
   Head = 'Wlk. Chapeau +1',
@@ -311,23 +318,20 @@ sets.Dark = kupo.combine(INT, {
   end,
 })
 
-sets.Stun = kupo.combine(sets.Dark, FastCast)
-
 sets.Dia = kupo.combine(MAB, {
   Waist = Obi,
 })
 
-sets.Barspell = {
-  Neck = 'Enhancing torque',
-  Hands = 'Dls. gloves +1',
-  Legs = "Warlock's tights",
-}
+sets.BarSpell = EnhancingSkill
+sets.EnSpell = EnhancingSkill
 
 sets.Spikes = kupo.combine(sets.INT, sets.MAB)
 
 sets.Stoneskin = kupo.combine(MND, {
   Neck = 'Stone Gorget',
 })
+
+sets.Stun = kupo.combine(sets.Dark, FastCast)
 
 sets.Invisible = {
   Hands = function(isSelfCast)
@@ -355,20 +359,15 @@ sets.Nuke.Low = kupo.combine(INT, MAB, ElementalSkillLow, { Waist = Obi })
 sets.Nuke.Medium = kupo.combine(sets.Nuke.Low, ElementalSkillMedium)
 sets.Nuke.High = kupo.combine(sets.Nuke.Low, ElementalSkillHigh)
 
-local BlackEnfeebling = sets:select('accuracy')
-BlackEnfeebling.Low = kupo.combine(INT, EnfeeblingSkillLow)
-BlackEnfeebling.Medium = kupo.combine(INT, EnfeeblingSkillMedium)
-BlackEnfeebling.High = kupo.combine(INT, EnfeeblingSkillHigh)
-sets.Blind = BlackEnfeebling
-sets.BlackEnfeebling = BlackEnfeebling.High
+sets.BlackEnfeebling = sets:select('accuracy')
+sets.BlackEnfeebling.Low = kupo.combine(INT, EnfeeblingSkillLow)
+sets.BlackEnfeebling.Medium = kupo.combine(INT, EnfeeblingSkillMedium)
+sets.BlackEnfeebling.High = kupo.combine(INT, EnfeeblingSkillHigh)
 
-local WhiteEnfeebling = sets:select('accuracy')
-WhiteEnfeebling.Low = kupo.combine(MND, EnfeeblingSkillLow)
-WhiteEnfeebling.Medium = kupo.combine(MND, EnfeeblingSkillMedium)
-WhiteEnfeebling.High = kupo.combine(MND, EnfeeblingSkillHigh)
-sets.Paralyze = WhiteEnfeebling
-sets.Slow = WhiteEnfeebling
-sets.WhiteEnfeebling = WhiteEnfeebling.High
+sets.WhiteEnfeebling = sets:select('accuracy')
+sets.WhiteEnfeebling.Low = kupo.combine(MND, EnfeeblingSkillLow)
+sets.WhiteEnfeebling.Medium = kupo.combine(MND, EnfeeblingSkillMedium)
+sets.WhiteEnfeebling.High = kupo.combine(MND, EnfeeblingSkillHigh)
 
 sets.Idle = sets:select('mode')
 sets.Idle.Default = kupo.combine(Refresh, Movement, {

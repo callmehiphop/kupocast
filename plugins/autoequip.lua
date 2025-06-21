@@ -1,4 +1,5 @@
 local kupo = require('kupocast/kupocast')
+local _ = require('kupocast/libs/luadash')
 
 local fastCastGearValues = {
   ['Wlk. Chapeau +1'] = 0.10,
@@ -50,53 +51,6 @@ local getCastDelay = function(player, action, set)
   return ((action.CastTime * (1 - fastCast)) / 1000) - minBuffer
 end
 
-local skillMap = {
-  ['Healing Magic'] = 'Healing',
-  ['Dark Magic'] = 'Dark',
-  ['Enhancing Magic'] = 'Enhancing',
-  ['Enfeebling Magic'] = 'Enfeebling',
-  ['Elemental Magic'] = 'Elemental',
-}
-
-local elementalDebuffs = T({
-  'Burn',
-  'Choke',
-  'Shock',
-  'Drown',
-  'Frost',
-  'Rasp',
-})
-
-local getSpellFamily = function(action)
-  if action.Skill == 'Healing Magic' then
-    if action.Name:match('^Cur[ea]+g?a?') then
-      return 'Cure'
-    end
-  elseif action.Skill == 'Dark Magic' then
-    if action.Name:match('^Absorb') then
-      return 'Absorb'
-    end
-  elseif action.Skill == 'Enhancing Magic' then
-    if action.Name:match(' Spikes$') then
-      return 'Spikes'
-    elseif action.Name:match('^Bar') then
-      return 'Barspell'
-    end
-  elseif action.Skill == 'Enfeebling Magic' then
-    if action.Name:match('^Dia') then
-      return 'Dia'
-    elseif action.Type == 'White Magic' then
-      return 'WhiteEnfeebling'
-    end
-    return 'BlackEnfeebling'
-  elseif action.Skill == 'Elemental Magic' then
-    if not elementalDebuffs:contains(action.Name) then
-      return 'Nuke'
-    end
-  end
-  return nil
-end
-
 return {
   name = 'AutoEquip',
   install = function(profile, options)
@@ -114,11 +68,11 @@ return {
     end)
 
     profile:on('precast', function(action)
-      local set = sets.Precast or {}
-      if set then
-        kupo.equip(set)
+      local precastSet = sets.Precast or {}
+      if precastSet then
+        kupo.equip(precastSet)
       end
-      local castDelay = getCastDelay(store.player, action, set)
+      local castDelay = getCastDelay(store.player, action, precastSet)
       if castDelay >= packetDelay then
         gFunc.SetMidDelay(castDelay)
       end
@@ -134,13 +88,13 @@ return {
       if sets[action.Name] then
         return kupo.equip(sets[action.Name])
       end
-      local spellFamily = getSpellFamily(action)
-      if sets[spellFamily] then
-        return kupo.equip(sets[spellFamily])
-      end
-      local spellSkill = skillMap[action.Skill] or action.Skill
-      if sets[spellSkill] then
-        kupo.equip(sets[spellSkill])
+      local tagSets = _.filter(action.Tags, function(tag)
+        return sets[tag]
+      end)
+      if #tagSets > 0 then
+        kupo.equip(sets[_.last(tagSets)])
+      elseif sets[action.Skill] then
+        kupo.equip(sets[action.Skill])
       elseif sets.Midcast then
         kupo.equip(sets.Midcast)
       end

@@ -1,6 +1,7 @@
 local kupo = require('kupocast/kupocast')
 local AutoEquipPlugin = require('kupocast/plugins/autoequip')
 local ConquestPlugin = require('kupocast/plugins/conquest')
+local SpellTagsPlugin = require('kupocast/plugins/spelltags')
 
 local store = kupo.Store({
   toggles = {
@@ -25,7 +26,7 @@ local store = kupo.Store({
 })
 
 local profile = kupo.Profile({
-  plugins = { ConquestPlugin, AutoEquipPlugin },
+  plugins = { AutoEquipPlugin, ConquestPlugin, SpellTagsPlugin },
   store = store,
   lockStyle = 'LockStyle',
   display = {
@@ -192,7 +193,7 @@ sets.Idle.Tank = kupo.combine(DamageTaken, {
 })
 
 sets.Engaged = sets:weave('weapon', 'mode')
--- weapons
+-- Engaged Weapon sets
 sets.Engaged.Scythe = {
   Main = 'Tredecim Scythe',
   Neck = 'Peacock Amulet',
@@ -223,7 +224,7 @@ sets.Engaged.Club = {
     return 'She-slime shield'
   end,
 }
--- modes
+-- Engaged Mode sets
 sets.Engaged.Default = kupo.combine(Haste, {
   Ammo = 'Bomb Core',
   Body = 'Hauberk',
