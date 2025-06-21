@@ -15,9 +15,11 @@ Store.__index = function(t, k)
 end
 
 Store.__newindex = function(t, k, v)
-  t.state[k] = v
-  t._ee:emit('statechange', k, v)
-  t._ee:emit('statechange:' .. tostring(k), v)
+  if t.state[k] ~= v then
+    t.state[k] = v
+    t._ee:emit('statechange', k, v)
+    t._ee:emit('statechange:' .. tostring(k), v)
+  end
 end
 
 function Store.new(config)
