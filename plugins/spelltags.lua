@@ -360,12 +360,8 @@ local Tags = {
 return {
   name = 'SpellTags',
   install = function(profile)
-    local store = profile.store
-
-    local stopWatching = store.watch('action', function(action)
+    profile.store:watch('action', function(action)
       action.Tags = Tags[action.Name]
     end)
-
-    profile:once('unload', stopWatching)
   end,
 }
