@@ -1,3 +1,9 @@
+------------
+-- A tiny EventEmitter class for Lua
+-- @classmod EventEmitter
+-- @author callmehiphop
+-- @license MIT
+---
 local EventEmitter = {}
 EventEmitter.__index = EventEmitter
 

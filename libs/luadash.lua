@@ -1,3 +1,9 @@
+------------
+-- Cherry-picked lodash lib for Lua
+-- @module luadash
+-- @author callmehiphop
+-- @license MIT
+---
 local _ = {}
 
 _.assign = function(object, ...)
