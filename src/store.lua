@@ -2,7 +2,6 @@ local _ = require('kupocast/libs/luadash')
 local EventEmitter = require('kupocast/libs/events')
 
 local Store = {}
-setmetatable(Store, { __index = EventEmitter })
 
 Store.__index = function(t, k)
   if t.state[k] ~= nil then
@@ -12,19 +11,20 @@ Store.__index = function(t, k)
   elseif _.isFunction(t.actions[k]) then
     return t.actions[k]
   end
-  return rawget(t, k) or Store[k] or EventEmitter[k]
+  return rawget(t, k) or Store[k]
 end
 
 Store.__newindex = function(t, k, v)
   t.state[k] = v
-  t:emit('statechange', k, v)
-  t:emit('statechange:' .. tostring(k), v)
+  t._ee:emit('statechange', k, v)
+  t._ee:emit('statechange:' .. tostring(k), v)
 end
 
 function Store.new(config)
   config = config or {}
 
-  local store = EventEmitter.new()
+  local store = {}
+  store._ee = EventEmitter.new()
   store.state = _.assign({}, config.state)
   store.getters = _.assign({}, config.getters)
   store.actions = _.assign({}, config.actions)
@@ -59,15 +59,16 @@ function Store:createToggle(key, value)
   end
 end
 
+function Store:destroy()
+  self._ee:removeAllListeners()
+end
+
 function Store:subscribe(callback)
-  self:on('statechange', callback)
-  return _.bind(self.off, self, 'statechange', callback)
+  self._ee:on('statechange', callback)
 end
 
 function Store:watch(key, callback)
-  local event = 'statechange:' .. tostring(key)
-  self:on(event, callback)
-  return _.bind(self.off, self, event, callback)
+  self._ee:on('statechange:' .. tostring(key), callback)
 end
 
 return Store
