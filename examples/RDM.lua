@@ -224,8 +224,8 @@ local Refresh = {
 }
 
 local SIRD = {
-  Ear1 = 'Magnetic Earring',
-  Body = "Warlock's Mantle",
+  Ear2 = 'Magnetic Earring',
+  Body = "Warlock's Tabard",
 }
 
 ---
