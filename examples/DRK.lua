@@ -68,13 +68,9 @@ local Haste = {
   Waist = 'Swift Belt',
   Legs = 'Homam Cosciales',
   Feet = 'Homam Gambieras',
-  Ear2 = function(player)
-    return player.SubJob == 'DRG' and 'Wyvern Earring'
-  end,
 }
 
 local HP = {
-  Sub = 'She-slime Shield',
   Ear1 = 'Morukaka Earring',
   Ring2 = 'Bomb Queen Ring',
   Back = 'Gigant Mantle',
@@ -244,6 +240,9 @@ sets.Engaged.Tank = kupo.combine(sets.Engaged.Default, DamageTaken, {
 })
 sets.Engaged.Zerg = kupo.combine(HP, Haste, {
   Body = 'Gloom Breastplate',
+  Ear2 = function(player)
+    return player.SubJob == 'DRG' and 'Wyvern Earring'
+  end,
 })
 
 return profile
