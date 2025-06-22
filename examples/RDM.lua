@@ -35,17 +35,17 @@ local profile = kupo.Profile({
   store = store,
   lockStyle = 'LockStyle',
   display = {
-    accuracy = '[m] Magic Accuracy',
-    mode = '[q] Mode',
+    accuracy = '[c] Magic Accuracy',
+    mode = '[m] Mode',
     jellyRing = '[j] Jelly Ring',
-    weapon = '[e] Weapon',
+    weapon = '[q] Weapon',
     weaponLock = '[l] Weapon Lock',
   },
   bind = {
-    m = store.cycleAccuracy,
-    q = store.cycleMode,
+    c = store.cycleAccuracy,
+    m = store.cycleMode,
     j = store.toggleJellyRing,
-    e = store.cycleWeapon,
+    q = store.cycleWeapon,
     l = store.toggleWeaponLock,
   },
   watch = {

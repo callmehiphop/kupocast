@@ -34,15 +34,15 @@ local profile = kupo.Profile({
   store = store,
   lockStyle = 'LockStyle',
   display = {
-    mode = '[e] Mode',
-    accuracy = '[m] Magic Accuracy',
-    sorcRing = "[r] Sorcerer's Ring",
+    mode = '[m] Mode',
+    accuracy = '[c] Magic Accuracy',
+    sorcRing = "[g] Sorcerer's Ring",
     magicBurst = '[b] Magic Burst',
   },
   bind = {
-    e = store.cycleMode,
-    m = store.cycleAccuracy,
-    r = store.toggleSorcRing,
+    m = store.cycleMode,
+    c = store.cycleAccuracy,
+    g = store.toggleSorcRing,
     b = store.toggleMagicBurst,
   },
 })

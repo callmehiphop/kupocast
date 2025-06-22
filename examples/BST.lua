@@ -20,13 +20,13 @@ local profile = kupo.Profile({
   lockStyle = 'LockStyle',
   display = {
     mode = '[m] Mode',
-    weapon = '[r] Weapon',
+    weapon = '[q] Weapon',
     jugPet = '[p] Jug Pet',
     jellyRing = '[j] Jelly Ring',
   },
   bind = {
     m = store.cycleMode,
-    r = store.cycleWeapon,
+    q = store.cycleWeapon,
     p = store.cycleJugPet,
     j = store.toggleJellyRing,
   },

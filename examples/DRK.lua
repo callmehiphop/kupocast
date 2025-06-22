@@ -30,12 +30,12 @@ local profile = kupo.Profile({
   store = store,
   lockStyle = 'LockStyle',
   display = {
-    weapon = '[r] Weapon',
+    weapon = '[q] Weapon',
     mode = '[m] Mode',
     jellyRing = '[j] Jelly Ring',
   },
   bind = {
-    r = store.cycleWeapon,
+    q = store.cycleWeapon,
     m = store.cycleMode,
     j = store.toggleJellyRing,
   },
