@@ -15,12 +15,13 @@ SetMatrix.__newindex = function(t, k, v)
 end
 
 function SetMatrix.new(injector, keys)
-  local matrix = setmetatable({}, SetMatrix)
+  local matrix = {}
   matrix._injector = injector
   matrix._keys = keys
   matrix._sets = {}
-  matrix.build = memo(_.bind(matrix._build, matrix))
-  return matrix
+  matrix.build = memo(_.bind(SetMatrix._build, matrix))
+  -- set metatable last to avoid newindex check
+  return setmetatable(matrix, SetMatrix)
 end
 
 function SetMatrix:_build(...)
