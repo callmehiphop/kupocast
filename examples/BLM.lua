@@ -264,8 +264,8 @@ sets.Elemental.High = kupo.combine(sets.Elemental.Medium, {
 })
 
 sets.Nuke = sets:weave('accuracy', 'mode')
--- accuracy sets
 sets.Nuke.Low = kupo.combine(INT, MAB, {
+  Main = Staff,
   Waist = Obi,
   Hands = function(magicBurst)
     return magicBurst and 'Src. Gloves +1'
@@ -283,10 +283,7 @@ sets.Nuke.High = kupo.combine(sets.Nuke.Medium, {
   Hands = "Wizard's Gloves",
   Legs = 'Mahatma Slops',
 })
--- mode sets
-sets.Nuke.Default = { Main = Staff }
 sets.Nuke.Enmity = kupo.combine(INT, {
-  Main = Staff,
   Ammo = 'Hedgehog Bomb',
   Waist = "Penitent's Rope",
 })

@@ -389,26 +389,10 @@ sets.Idle.Tank = kupo.combine(DamageTaken, Refresh, Movement, {
 })
 
 sets.Engaged = sets:weave('weapon', 'mode')
--- Weapon-specific engaged sets
-sets.Engaged.Dagger = {
-  Main = 'Blau Dolch',
-  Sub = "Genbu's Shield",
-  Ear1 = 'Brutal Earring',
-}
-sets.Engaged['Dagger/Club'] = {
-  Main = 'Blau Dolch',
-  Sub = 'Octave Club',
-  Ear1 = 'Stealth Earring',
-}
-sets.Engaged.Sword = {
-  Main = 'Joyeuse',
-  Sub = "Genbu's Shield",
-  Ear1 = 'Brutal Earring',
-}
--- Mode-specific engaged sets
 sets.Engaged.Default = kupo.combine(Haste, Refresh, {
   Ammo = 'Tiphia Sting',
   Neck = 'Peacock Amulet',
+  Ear1 = 'Brutal Earring',
   Ear2 = "Merman's Earring",
   Ring1 = "Toreador's Ring",
   Ring2 = "Toreador's Ring",
@@ -417,6 +401,18 @@ sets.Engaged.Default = kupo.combine(Haste, Refresh, {
 sets.Engaged.Accuracy = kupo.combine(sets.Engaged.Default, {
   Body = 'Scp. Harness +1',
 })
+sets.Engaged.Dagger = {
+  Main = 'Blau Dolch',
+  Sub = "Genbu's Shield",
+}
+sets.Engaged['Dagger/Club'] = kupo.combine(sets.Engaged.Dagger, {
+  Sub = 'Octave Club',
+  Ear1 = 'Stealth Earring',
+})
+sets.Engaged.Sword = {
+  Main = 'Joyeuse',
+  Sub = "Genbu's Shield",
+}
 sets.Engaged.Tank = kupo.combine(DamageTaken, Refresh, {
   Ammo = 'Happy Egg',
   Waist = 'Warwolf Belt',

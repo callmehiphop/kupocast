@@ -95,6 +95,25 @@ _.includes = function(collection, value)
   return false
 end
 
+_.intersection = function(first, second)
+  local seen = {}
+  local result = {}
+
+  _.forEach(second, function(value)
+    seen[value] = true
+  end)
+
+  -- doing `first` second to preserve order
+  _.forEach(first, function(value)
+    if seen[value] then
+      seen[value] = false
+      table.insert(result, value)
+    end
+  end)
+
+  return result
+end
+
 _.invert = function(collection)
   local inverted = {}
   _.forEach(collection, function(value, key)

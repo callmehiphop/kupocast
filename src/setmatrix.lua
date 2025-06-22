@@ -9,16 +9,23 @@ SetMatrix.__pairs = function(t)
   return pairs(t:get())
 end
 
+SetMatrix.__newindex = function(t, k, v)
+  table.insert(t._sets, k)
+  return rawset(t, k, v)
+end
+
 function SetMatrix.new(injector, keys)
   local matrix = setmetatable({}, SetMatrix)
   matrix._injector = injector
   matrix._keys = keys
+  matrix._sets = {}
   matrix.build = memo(_.bind(matrix._build, matrix))
   return matrix
 end
 
 function SetMatrix:_build(...)
-  local sets = _.map({ ... }, function(key)
+  local keys = _.intersection(self._sets, { ... })
+  local sets = _.map(keys, function(key)
     return self[key] or self.Default or {}
   end)
   if #sets > 1 then

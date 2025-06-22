@@ -68,6 +68,9 @@ local Haste = {
   Waist = 'Swift Belt',
   Legs = 'Homam Cosciales',
   Feet = 'Homam Gambieras',
+  Ear2 = function(player)
+    return player.SubJob == 'DRG' and 'Wyvern Earring'
+  end,
 }
 
 local HP = {
@@ -189,40 +192,11 @@ sets.Idle.Tank = kupo.combine(DamageTaken, {
 })
 
 sets.Engaged = sets:weave('weapon', 'mode')
--- Engaged Weapon sets
-sets.Engaged.Scythe = {
-  Main = 'Tredecim Scythe',
-  Neck = 'Peacock Amulet',
-  Ear1 = 'Brutal Earring',
-  Ear2 = 'Abyssal Earring',
-}
-sets.Engaged['Great Sword'] = {
-  Main = 'Balmung',
-  Neck = 'Prudence Torque',
-  Ear1 = 'Brutal Earring',
-  Ear2 = 'Abyssal Earring',
-}
-sets.Engaged['Great Axe'] = {
-  Main = 'Martial Bhuj',
-  Neck = 'Peacock Amulet',
-  Ear1 = 'Brutal Earring',
-  Ear2 = "Merman's Earring",
-}
-sets.Engaged.Club = {
-  Main = 'Octave Club',
-  Neck = 'Peacock Amulet',
-  Ear1 = "Merman's Earring",
-  Ear2 = "Merman's Earring",
-  Sub = function(player)
-    if player.SubJob == 'DRG' then
-      return 'Wyvern Targe'
-    end
-    return 'She-slime shield'
-  end,
-}
--- Engaged Mode sets
 sets.Engaged.Default = kupo.combine(Haste, {
   Ammo = 'Bomb Core',
+  Neck = 'Peacock Amulet',
+  Ear1 = 'Brutal Earring',
+  Ear2 = "Merman's Earring",
   Body = 'Hauberk',
   Ring2 = "Toreador's Ring",
   Back = "Forager's Mantle",
@@ -232,6 +206,33 @@ sets.Engaged.Accuracy = kupo.combine(sets.Engaged.Default, {
   Head = 'Optical Hat',
   Ring1 = "Toreador's Ring",
 })
+-- Engaged Weapon sets
+sets.Engaged.Scythe = {
+  Main = 'Tredecim Scythe',
+  Ear2 = function(mode, player)
+    if player.SubJob == 'DRG' and mode ~= 'Accuracy' then
+      return 'Wyvern Earring'
+    end
+    return 'Abyssal Earring'
+  end,
+}
+sets.Engaged['Great Sword'] = kupo.combine(sets.Engaged.Scythe, {
+  Main = 'Balmung',
+  Neck = 'Prudence Torque',
+})
+sets.Engaged['Great Axe'] = {
+  Main = 'Martial Bhuj',
+}
+sets.Engaged.Club = {
+  Main = 'Octave Club',
+  Ear1 = "Merman's Earring",
+  Sub = function(player)
+    if player.SubJob == 'DRG' then
+      return 'Wyvern Targe'
+    end
+    return 'She-slime shield'
+  end,
+}
 sets.Engaged.Tank = kupo.combine(sets.Engaged.Default, DamageTaken, {
   Ammo = 'Happy Egg',
   Neck = 'Parade Gorget',
@@ -240,9 +241,6 @@ sets.Engaged.Tank = kupo.combine(sets.Engaged.Default, DamageTaken, {
 })
 sets.Engaged.Zerg = kupo.combine(HP, Haste, {
   Body = 'Gloom Breastplate',
-  Ear2 = function(player)
-    return player.SubJob == 'DRG' and 'Wyvern Earring'
-  end,
 })
 
 return profile

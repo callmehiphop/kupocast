@@ -131,28 +131,11 @@ sets.Idle.Default = { Hands = 'remove', Feet = 'remove' }
 sets.Idle.Tank = DamageTaken
 
 sets.Engaged = sets:weave('weapon', 'mode')
--- engaged weapon sets
-sets.Engaged['Axe/Club'] = {
-  Main = 'Maneater',
-  Sub = 'Octave Club',
-  Ear1 = "Merman's Earring",
-  Ear2 = 'Stealth Earring',
-}
-sets.Engaged.Axe = {
-  Main = 'Maneater',
-  Sub = '', -- TODO: Get a tatami shield :(
-  Ear1 = 'Brutal Earring',
-  Ear2 = "Merman's Earring",
-}
-sets.Engaged.Scythe = {
-  Main = "Suzaku's Scythe", -- spelling??
-  Ear1 = 'Brutal Earring',
-  Ear2 = 'Abyssal Earring',
-}
--- engaged mode sets
 sets.Engaged.Default = kupo.combine(Haste, {
   Ammo = 'Tiphia Sting',
   Neck = 'Peacock Amulet',
+  Ear1 = 'Brutal Earring',
+  Ear2 = "Merman's Earring",
   Body = 'Hauberk',
   Ring2 = "Toreador's Ring",
   Back = "Forager's Mantle",
@@ -162,6 +145,19 @@ sets.Engaged.Accuracy = kupo.combine(sets.Engaged.Default, {
   Head = 'Optical Hat',
   Ring1 = "Toreador's Ring",
 })
+sets.Engaged['Axe/Club'] = {
+  Main = 'Maneater',
+  Sub = 'Octave Club',
+  Ear1 = 'Stealth Earring',
+}
+sets.Engaged.Axe = {
+  Main = 'Maneater',
+  Sub = '', -- TODO: Get a tatami shield :(
+}
+sets.Engaged.Scythe = {
+  Main = "Suzaku's Scythe", -- spelling??
+  Ear2 = 'Abyssal Earring',
+}
 sets.Engaged.Tank = kupo.combine(sets.Engaged.Default, DamageTaken, {
   Ammo = 'Happy Egg',
   Back = 'Gigant Mantle',
