@@ -20,14 +20,17 @@ function SetMatrix.new(injector, keys)
   matrix._keys = keys
   matrix._sets = {}
   matrix.build = memo(_.bind(SetMatrix._build, matrix))
-  -- set metatable last to avoid newindex check
+  -- set metatable last to avoid newindex magic
   return setmetatable(matrix, SetMatrix)
 end
 
 function SetMatrix:_build(...)
   local keys = _.intersection(self._sets, { ... })
+  if _.isEmpty(keys) then
+    return self.Default or {}
+  end
   local sets = _.map(keys, function(key)
-    return self[key] or self.Default or {}
+    return self[key]
   end)
   if #sets > 1 then
     return equipment.combine(table.unpack(sets))
