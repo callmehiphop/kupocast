@@ -358,7 +358,7 @@ local Tags = {
 }
 
 return {
-  name = 'SpellTags',
+  name = 'Tags',
   install = function(profile)
     profile.store:watch('action', function(action)
       action.Tags = Tags[action.Name]

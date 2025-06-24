@@ -2,7 +2,7 @@ local kupo = require('kupocast/kupocast')
 local AutoEquipPlugin = require('kupocast/plugins/autoequip')
 local ConquestPlugin = require('kupocast/plugins/conquest')
 local ObiPlugin = require('kupocast/plugins/obi')
-local SpellTagsPlugin = require('kupocast/plugins/spelltags')
+local TagsPlugin = require('kupocast/plugins/tags')
 
 ---
 --- Store Definition
@@ -31,7 +31,7 @@ local store = kupo.Store({
 --- Profile Definition
 ---
 local profile = kupo.Profile({
-  plugins = { AutoEquipPlugin, ConquestPlugin, ObiPlugin, SpellTagsPlugin },
+  plugins = { AutoEquipPlugin, ConquestPlugin, ObiPlugin, TagsPlugin },
   store = store,
   lockStyle = 'LockStyle',
   display = {
