@@ -91,24 +91,11 @@ return {
 
       table.insert(layers, action.Name)
 
-      kupo.log.time('equip foreach')
       _.forEach(layers, function(layer)
         if sets[layer] then
           kupo.equip(sets[layer])
         end
       end)
-      kupo.log.timeEnd('equip foreach')
-      -- kupo.log.time('equip combined')
-      -- layers = _.reduce(layers, function(layers, layer)
-      --   if sets[layer] then
-      --     table.insert(layers, sets[layer])
-      --   end
-      --   return layers
-      -- end, {})
-
-      -- local set = kupo.combine(table.unpack(layers))
-      -- kupo.equip(set)
-      -- kupo.log.timeEnd('equip combined')
     end)
 
     profile:on('ability', function(action)
