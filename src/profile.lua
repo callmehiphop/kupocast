@@ -34,19 +34,22 @@ function Profile.new(config)
   profile.HandlePreshot = _.bind(profile._onranged, profile, 'preshot')
   profile.HandleMidshot = _.bind(profile._onranged, profile, 'midshot')
 
-  if config.plugins then
+  if not _.isEmpty(config.plugins) then
     profile:_installPlugins(config.plugins)
   end
   if config.lockStyle then
     profile:_setLockStyle(config.lockStyle)
   end
-  if config.display then
+  if not _.isEmpty(config.macros) then
+    profile:_setMacros(config.macros)
+  end
+  if not _.isEmpty(config.display) then
     profile:_createDisplay(config.display)
   end
-  if config.bind then
+  if not _.isEmpty(config.bind) then
     profile:_bindHotKeys(config.bind)
   end
-  if config.watch then
+  if not _.isEmpty(config.watch) then
     profile:_watch(config.watch)
   end
 
@@ -124,6 +127,17 @@ function Profile:_setLockStyle(set)
       end
       gFunc.LockStyle(set)
     end)
+  end)
+end
+
+function Profile:_setMacros(options)
+  self:once('load', function()
+    if options.book then
+      utils.exec('/macro book %d', options.book)
+    end
+    if options.set then
+      utils.exec('/macro set %d', options.set)
+    end
   end)
 end
 
