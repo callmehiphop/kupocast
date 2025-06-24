@@ -130,7 +130,7 @@ sets.Idle = sets:select('mode')
 sets.Idle.Default = { Hands = 'remove', Feet = 'remove' }
 sets.Idle.Tank = DamageTaken
 
-sets.Engaged = sets:weave('weapon', 'mode')
+sets.Engaged = sets:layer('weapon', 'mode')
 sets.Engaged.Default = kupo.combine(Haste, {
   Ammo = 'Tiphia Sting',
   Neck = 'Peacock Amulet',

@@ -4,7 +4,7 @@ local Display = require('kupocast/src/display')
 local Injector = require('kupocast/src/injector')
 local Input = require('kupocast/src/input')
 local log = require('kupocast/src/logger')
-local SetTable = require('kupocast/src/settable')
+local SetTable = require('kupocast/src/sets/table')
 local Store = require('kupocast/src/store')
 local utils = require('kupocast/src/utils')
 

@@ -263,7 +263,7 @@ sets.Elemental.High = kupo.combine(sets.Elemental.Medium, {
   Hands = "Wizard's Gloves",
 })
 
-sets.Nuke = sets:weave('accuracy', 'mode')
+sets.Nuke = sets:layer('accuracy', 'mode')
 sets.Nuke.Low = kupo.combine(INT, MAB, {
   Main = Staff,
   Waist = Obi,

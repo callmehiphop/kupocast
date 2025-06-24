@@ -191,7 +191,7 @@ sets.Idle.Tank = kupo.combine(DamageTaken, {
   Legs = 'Crimson Cuisses',
 })
 
-sets.Engaged = sets:weave('weapon', 'mode')
+sets.Engaged = sets:layer('weapon', 'mode')
 sets.Engaged.Default = kupo.combine(Haste, {
   Ammo = 'Bomb Core',
   Neck = 'Peacock Amulet',

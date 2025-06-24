@@ -388,7 +388,7 @@ sets.Idle.Tank = kupo.combine(DamageTaken, Refresh, Movement, {
   Main = staves.Earth,
 })
 
-sets.Engaged = sets:weave('weapon', 'mode')
+sets.Engaged = sets:layer('weapon', 'mode')
 sets.Engaged.Default = kupo.combine(Haste, Refresh, {
   Ammo = 'Tiphia Sting',
   Neck = 'Peacock Amulet',
