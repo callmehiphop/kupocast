@@ -183,7 +183,7 @@ sets.InterimCast = {
   Ear1 = 'Magnetic Earring',
 }
 
-sets.Recast = kupo.combine(FastCast, Haste)
+sets.Midcast = kupo.combine(FastCast, Haste)
 
 sets.BlackEnfeebling = kupo.combine(INT, EnfeeblingSkill)
 sets.WhiteEnfeebling = kupo.combine(MND, EnfeeblingSkill)
@@ -204,13 +204,13 @@ sets.Dark = kupo.combine(INT, {
   end,
 })
 
-sets.AbsorbPoints = kupo.combine(sets.Dark, {
+sets.AbsorbPoints = {
   Main = function(environment)
     return environment.WeatherElement == 'Dark' and "Diabolos's Pole"
   end,
-})
+}
 
-sets.BarSpell = {
+sets.Enhancing = {
   Neck = 'Enhancing Torque',
   Back = 'Merciful Cape',
 }
@@ -264,8 +264,7 @@ sets.Elemental.High = kupo.combine(sets.Elemental.Medium, {
 })
 
 sets.Nuke = sets:layer('accuracy', 'mode')
-sets.Nuke.Low = kupo.combine(INT, MAB, {
-  Main = Staff,
+sets.Nuke.Low = kupo.combine(MAB, {
   Waist = Obi,
   Hands = function(magicBurst)
     return magicBurst and 'Src. Gloves +1'
@@ -273,10 +272,6 @@ sets.Nuke.Low = kupo.combine(INT, MAB, {
   Legs = function(action, environment)
     return action.Element == environment.DayElement and "Sorcerer's Tonban"
   end,
-})
-sets.Nuke.Medium = kupo.combine(sets.Nuke.Low, {
-  Head = 'Src. Petasos +1',
-  Back = 'Merciful Cape',
 })
 sets.Nuke.High = kupo.combine(sets.Nuke.Medium, {
   Neck = 'Elemental Torque',

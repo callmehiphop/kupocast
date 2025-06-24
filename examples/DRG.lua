@@ -75,23 +75,20 @@ sets.LockStyle = {
   Feet = 'Homam Gambieras',
 }
 
-sets.Recast = kupo.combine(FastCast, Haste)
-sets.Ninjutsu = sets.Recast
-
-sets.Midcast = {
+sets.Precast = FastCast
+sets.Midcast = kupo.combine(FastCast, Haste, {
   Ammo = 'Happy Egg',
   Head = 'Drachen Armet',
   Neck = 'Ajase Beads',
   Ear2 = 'Morukaka Earring',
   Body = 'Scp. Harness +1',
-  Hands = 'Homam Manopolas',
   Ring1 = 'Bomb Queen Ring',
   Ring2 = "Toreador's Ring",
   Back = 'Gigant Mantle',
-  Waist = 'Swift Belt',
   Legs = 'Drachen Brais',
-  Feet = 'Homam Gambieras',
-}
+})
+
+sets.Ninjutsu = kupo.combine(FastCast, Haste)
 
 sets.Jump = Jump
 sets['High Jump'] = Jump

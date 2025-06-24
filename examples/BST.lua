@@ -74,7 +74,7 @@ sets.LockStyle = {
 }
 
 sets.Precast = FastCast
-sets.Recast = kupo.combine(FastCast, Haste)
+sets.Midcast = kupo.combine(FastCast, Haste)
 
 sets['Call Beast'] = {
   Ammo = function(jugPet)

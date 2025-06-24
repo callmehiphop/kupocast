@@ -150,12 +150,6 @@ local EnfeeblingSkillHigh = kupo.combine(EnfeeblingSkillMedium, {
   end,
 })
 
-local EnhancingSkill = {
-  Neck = 'Enhancing torque',
-  Hands = 'Dls. gloves +1',
-  Legs = "Warlock's tights",
-}
-
 local FastCast = {
   Head = 'Wlk. Chapeau +1',
   Body = "Duelist's tabard",
@@ -295,12 +289,7 @@ sets.Weaponskill = {
 }
 
 sets.Precast = FastCast
-sets.Recast = kupo.combine(Haste, FastCast)
-
-sets.Cure = kupo.combine(MND, {
-  Main = staves.Light,
-  Waist = Obi,
-})
+sets.Midcast = kupo.combine(Haste, FastCast)
 
 sets.Dark = kupo.combine(INT, {
   Main = Staff,
@@ -318,12 +307,13 @@ sets.Dark = kupo.combine(INT, {
   end,
 })
 
-sets.Dia = kupo.combine(MAB, {
-  Waist = Obi,
-})
+sets.Stun = FastCast
 
-sets.BarSpell = EnhancingSkill
-sets.EnSpell = EnhancingSkill
+sets.Enhancing = {
+  Neck = 'Enhancing torque',
+  Hands = 'Dls. gloves +1',
+  Legs = "Warlock's tights",
+}
 
 sets.Spikes = kupo.combine(sets.INT, sets.MAB)
 
@@ -331,7 +321,14 @@ sets.Stoneskin = kupo.combine(MND, {
   Neck = 'Stone Gorget',
 })
 
-sets.Stun = kupo.combine(sets.Dark, FastCast)
+sets.Cure = kupo.combine(MND, {
+  Main = staves.Light,
+  Waist = Obi,
+})
+
+sets.Dia = kupo.combine(MAB, {
+  Waist = Obi,
+})
 
 sets.Invisible = {
   Hands = function(isSelfCast)
@@ -349,10 +346,10 @@ sets.InterimCast = sets:select('mode')
 sets.InterimCast.Default = SIRD
 sets.InterimCast.Tank = kupo.combine(DamageTaken, SIRD)
 
-sets.Elemental = sets:select('accuracy')
-sets.Elemental.Low = kupo.combine(INT, ElementalSkillLow)
-sets.Elemental.Medium = kupo.combine(INT, ElementalSkillMedium)
-sets.Elemental.High = kupo.combine(INT, ElementalSkillHigh)
+sets.ElementalDebuff = sets:select('accuracy')
+sets.ElementalDebuff.Low = kupo.combine(INT, ElementalSkillLow)
+sets.ElementalDebuff.Medium = kupo.combine(INT, ElementalSkillMedium)
+sets.ElementalDebuff.High = kupo.combine(INT, ElementalSkillHigh)
 
 sets.Nuke = sets:select('accuracy')
 sets.Nuke.Low = kupo.combine(INT, MAB, ElementalSkillLow, { Waist = Obi })

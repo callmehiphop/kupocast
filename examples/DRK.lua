@@ -150,7 +150,7 @@ sets['Spinning Slash'] = WindAffinity
 sets['Savage Blade'] = WindAffinity
 
 sets.Precast = FastCast
-sets.Recast = kupo.combine(FastCast, Haste)
+sets.Midcast = kupo.combine(FastCast, Haste)
 
 sets.Dark = {
   Ammo = 'Sweet Sachet',
@@ -170,11 +170,11 @@ sets.Dark = {
   end,
 }
 
-sets.Absorb = kupo.combine(sets.Dark, {
+sets.Absorb = {
   Legs = 'Black Cuisses',
-})
+}
 
-sets.Stun = kupo.combine(sets.Dark, sets.Recast)
+sets.Stun = sets.Recast
 
 sets.InterimCast = sets:select('mode')
 sets.InterimCast.Default = SIRD

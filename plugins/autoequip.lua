@@ -82,22 +82,20 @@ return {
       if sets.InterimCast then
         kupo.interimEquip(sets.InterimCast)
       end
-      if sets.Recast then
-        kupo.equip(sets.Recast)
+
+      local layers = { 'Midcast', action.Skill }
+
+      if action.Tags then
+        layers = _.concat(layers, action.Tags)
       end
-      if sets[action.Name] then
-        return kupo.equip(sets[action.Name])
-      end
-      local tagSets = _.filter(action.Tags, function(tag)
-        return sets[tag]
+
+      table.insert(layers, action.Name)
+
+      _.forEach(layers, function(layer)
+        if sets[layer] then
+          kupo.equip(sets[layer])
+        end
       end)
-      if #tagSets > 0 then
-        kupo.equip(sets[_.last(tagSets)])
-      elseif sets[action.Skill] then
-        kupo.equip(sets[action.Skill])
-      elseif sets.Midcast then
-        kupo.equip(sets.Midcast)
-      end
     end)
 
     profile:on('ability', function(action)
