@@ -276,7 +276,7 @@ sets.Nuke.Low = kupo.combine(MAB, {
     return action.Element == environment.DayElement and "Sorcerer's Tonban"
   end,
 })
-sets.Nuke.High = kupo.combine(sets.Nuke.Medium, {
+sets.Nuke.High = kupo.combine(sets.Nuke.Low, {
   Neck = 'Elemental Torque',
   Hands = "Wizard's Gloves",
   Legs = 'Mahatma Slops',
