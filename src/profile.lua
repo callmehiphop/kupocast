@@ -123,7 +123,7 @@ function Profile:_setLockStyle(set)
         set = self.Sets[set]
       end
       if not _.isTable(set) then
-        return log.error('Unable to lock style with ' .. type(set))
+        return log.error('Unable to lock style with', type(set))
       end
       gFunc.LockStyle(set)
     end)
@@ -150,10 +150,10 @@ end
 function Profile:use(plugin, options)
   local success, result = pcall(plugin.install, self, options)
   if success then
-    log.success(plugin.name .. ' loaded')
+    log.success(plugin.name, 'loaded')
     return result
   end
-  log.error('Unable to install ' .. plugin.name)
+  log.error('Unable to install', plugin.name)
   log.error(result)
 end
 

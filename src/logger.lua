@@ -47,7 +47,7 @@ function logger.timeEnd(name)
   end
   local elapsed = os.difftime(os.time(), timers[name]) * 1000
   timers[name] = nil
-  logger.info(name .. ':', tostring(elapsed), 'ms')
+  logger.info(name .. ':', elapsed, 'ms')
 end
 
 return logger
