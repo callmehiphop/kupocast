@@ -72,7 +72,7 @@ end
 function Profile:_installPlugins(plugins)
   _.forEach(plugins, function(plugin)
     local options
-    if #plugin == 2 then
+    if _.isTable(plugin) and #plugin == 2 then
       plugin, options = plugin[1], plugin[2]
     end
     self:use(plugin, options)
