@@ -58,6 +58,7 @@ function Display:start()
   end
   self.font = Fonts.new(FONT_OPTIONS)
   local update = _.bind(self.update, self)
+  -- TODO: consider make cb name more dynamic?
   ashita.events.register('d3d_present', 'kupo_display_cb', update)
 end
 
