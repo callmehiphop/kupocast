@@ -5,7 +5,7 @@ local Profile = require('kupocast/src/profile')
 local Store = require('kupocast/src/store')
 local utils = require('kupocast/src/utils')
 
-return {
+return _.assign({}, _, {
   log = logger,
   combine = equipment.combine,
   disable = _.bind(equipment.disabled, true),
@@ -17,4 +17,4 @@ return {
   exec = utils.exec,
   Profile = Profile.new,
   Store = Store.new,
-}
+})

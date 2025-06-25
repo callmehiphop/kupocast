@@ -87,12 +87,12 @@ _.forEachRight = function(collection, iteratee)
 end
 
 _.includes = function(collection, value)
-  for k, v in pairs(collection) do
-    if v == value then
-      return true
-    end
-  end
-  return false
+  local included = false
+  _.forEach(collection, function(v)
+    included = value == v
+    return not included
+  end)
+  return included
 end
 
 _.intersection = function(first, second)

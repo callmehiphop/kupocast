@@ -17,11 +17,14 @@ local store = kupo.Store({
     mode = { 'Default', 'Enmity' },
   },
   getters = {
+    isNuke = function(state)
+      return kupo.includes(state.action.Tags, 'Nuke')
+    end,
     isSelfCast = function(state)
       return state.target.Name == state.playerName
     end,
     shouldHpDown = function(state)
-      return state.sorcRing and state.action.Skill == 'Elemental Magic'
+      return state.sorcRing and state.isNuke
     end,
     precast = function(state)
       return (state.shouldHpDown and 'HpDown') or 'Default'
