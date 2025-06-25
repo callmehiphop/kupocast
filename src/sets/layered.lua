@@ -6,6 +6,8 @@ local LayeredSet = {}
 
 LayeredSet.__index = LayeredSet
 
+-- TODO: maybe improve this in case of duplicate keys
+-- and/or deleting a set. Not sure the use case.. but ya know
 LayeredSet.__newindex = function(t, k, v)
   table.insert(t._layers, k)
   return rawset(t, k, v)
