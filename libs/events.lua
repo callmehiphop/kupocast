@@ -19,7 +19,7 @@ function EventEmitter:emit(event, ...)
     return false
   end
   for _, listener in ipairs(listeners) do
-    listener.callback(...)
+    pcall(listener.callback, ...)
   end
   return true
 end
@@ -60,7 +60,10 @@ function EventEmitter:ponce(event, callback)
 end
 
 function EventEmitter:off(event, callback)
-  local listeners = self._events[event] or {}
+  local listeners = self._events[event]
+  if not listeners then
+    return self
+  end
   local filtered = {}
   for _, listener in ipairs(listeners) do
     local func = listener.original or listener.callback
@@ -68,7 +71,7 @@ function EventEmitter:off(event, callback)
       table.insert(filtered, listener)
     end
   end
-  self._events[event] = (#filtered and filtered) or nil
+  self._events[event] = (#filtered > 0 and filtered) or nil
   return self
 end
 
