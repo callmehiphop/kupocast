@@ -35,19 +35,21 @@ logger.warn = _.bind(log, Colors.WARN)
 function logger.time(name)
   name = name or 'default'
   if not _.isNil(timers[name]) then
-    return logger.warn("Timer '" .. name .. "' already exists")
+    logger.warn("Timer '" .. name .. "' already exists")
+    return
   end
-  timers[name] = os.time()
+  timers[name] = os.clock()
 end
 
 function logger.timeEnd(name)
   name = name or 'default'
   if _.isNil(timers[name]) then
-    return logger.warn("Timer '" .. name .. "' does not exist")
+    logger.warn("Timer '" .. name .. "' does not exist")
+    return
   end
-  local elapsed = os.difftime(os.time(), timers[name]) * 1000
+  local elapsed = (os.clock() - timers[name]) * 1000
   timers[name] = nil
-  logger.info(name .. ':', elapsed, 'ms')
+  logger.info(name .. ':', string.format('%.2f ms', elapsed))
 end
 
 return logger
