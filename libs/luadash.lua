@@ -32,7 +32,10 @@ _.castArray = function(value)
 end
 
 _.clone = function(value)
-  return { table.unpack(value) }
+  if _.isTable(value) then
+    return { table.unpack(value) }
+  end
+  return value
 end
 
 _.concat = function(first, ...)
@@ -60,10 +63,16 @@ _.filter = function(collection, iteratee)
 end
 
 _.forEach = function(collection, iteratee)
-  if _.isTable(collection) then
+  if _.isArrayLike(collection) then
+    for i = 1, #collection do
+      if iteratee(collection[i], i) == false then
+        return collection
+      end
+    end
+  elseif _.isTable(collection) then
     for key, value in pairs(collection) do
       if iteratee(value, key) == false then
-        return collection -- lua doesnt have a break
+        return collection
       end
     end
   end
@@ -72,7 +81,7 @@ end
 
 _.forEachRight = function(collection, iteratee)
   if _.isTable(collection) then
-    if not #collection then
+    if #collection == 0 then
       return _.forEachRight(_.keys(collection), function(key)
         return iteratee(collection[key], key)
       end)
@@ -131,8 +140,8 @@ _.isBoolean = function(value)
 end
 
 _.isEmpty = function(value)
-  if _.isString(value) then
-    return not #value
+  if _.isString(value) or _.isArrayLike(value) then
+    return #value == 0
   elseif not _.isTable(value) then
     return true
   end
