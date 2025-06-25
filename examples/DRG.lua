@@ -97,7 +97,7 @@ sets['Ancient Circle'] = {
   Legs = 'Drachen Brais',
 }
 
-sets.Breath = {
+sets.WyvernBreath = {
   Head = 'Wyrm Armet',
   Legs = 'Drachen Brais',
   Feet = 'Homam Gambieras',

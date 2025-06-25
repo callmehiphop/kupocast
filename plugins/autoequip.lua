@@ -117,9 +117,19 @@ return {
 
     -- this will only fire if the pet plugin is loaded
     profile:on('petaction', function(action)
-      if action.Name:find('Breath') and sets.Breath then
-        kupo.equip(sets.Breath)
+      local layers = { 'Pet' .. action.ActionType }
+
+      if action.Tags then
+        layers = kupo.concat(layers, action.Tags)
       end
+
+      table.insert(layers, action.Name)
+
+      kupo.forEach(layers, function(layer)
+        if sets[layer] then
+          kupo.equip(sets[layer])
+        end
+      end)
     end)
   end,
 }
