@@ -35,7 +35,7 @@ logger.warn = _.bind(log, Colors.WARN)
 function logger.time(name)
   name = name or 'default'
   if not _.isNil(timers[name]) then
-    return logger.warn("Timer '" .. name("' already exists"))
+    return logger.warn("Timer '" .. name .. "' already exists")
   end
   timers[name] = os.time()
 end
