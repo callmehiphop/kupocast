@@ -1,5 +1,4 @@
 local kupo = require('kupocast/kupocast')
-local _ = require('kupocast/libs/luadash')
 
 local fastCastGearValues = {
   ['Wlk. Chapeau +1'] = 0.10,
@@ -36,11 +35,9 @@ local getFastCastTraitValue = function(player)
 end
 
 local getFastCastGearValue = function(set)
-  local fastCast = 0
-  for _, gear in pairs(set) do
-    fastCast = fastCast + (fastCastGearValues[gear] or 0)
-  end
-  return fastCast
+  return kupo.reduce(set, function(total, gear)
+    return total + (fastCastGearValues[gear] or 0)
+  end, 0)
 end
 
 local getCastDelay = function(player, action, set)
@@ -51,15 +48,15 @@ local getCastDelay = function(player, action, set)
   return ((action.CastTime * (1 - fastCast)) / 1000) - minBuffer
 end
 
+local hasPacketFlow = function()
+  return AshitaCore:GetPluginManager():Get('PacketFlow')
+end
+
 return {
   name = 'AutoEquip',
-  install = function(profile, options)
-    options = options or {}
-
+  install = function(profile)
     local sets = profile.Sets
     local store = profile.store
-    -- TODO: use plugin manager to check
-    local packetDelay = (options.packetFlow and 0.25) or 0.4
 
     profile:on('default', function(player)
       if sets[player.Status] then
@@ -68,11 +65,13 @@ return {
     end)
 
     profile:on('precast', function(action)
-      local precastSet = sets.Precast or {}
-      if precastSet then
-        kupo.equip(precastSet)
+      local set = sets.Precast and kupo.build(sets.Precast)
+      local castDelay = getCastDelay(store.player, action, set)
+      local packetDelay = (hasPacketFlow() and 0.25) or 0.4
+
+      if set then
+        kupo.equip(set)
       end
-      local castDelay = getCastDelay(store.player, action, precastSet)
       if castDelay >= packetDelay then
         gFunc.SetMidDelay(castDelay)
       end
@@ -86,12 +85,12 @@ return {
       local layers = { 'Midcast', action.Skill }
 
       if action.Tags then
-        layers = _.concat(layers, action.Tags)
+        layers = kupo.concat(layers, action.Tags)
       end
 
       table.insert(layers, action.Name)
 
-      _.forEach(layers, function(layer)
+      kupo.forEach(layers, function(layer)
         if sets[layer] then
           kupo.equip(sets[layer])
         end
@@ -99,18 +98,20 @@ return {
     end)
 
     profile:on('ability', function(action)
+      if sets.Ability then
+        kupo.equip(sets.Ability)
+      end
       if sets[action.Name] then
         kupo.equip(sets[action.Name])
-      elseif sets.Ability then
-        kupo.equip(sets.Ability)
       end
     end)
 
     profile:on('weaponskill', function(action)
+      if sets.Weaponskill then
+        kupo.equip(sets.Weaponskill)
+      end
       if sets[action.Name] then
         kupo.equip(sets[action.Name])
-      elseif sets.Weaponskill then
-        kupo.equip(sets.Weaponskill)
       end
     end)
 

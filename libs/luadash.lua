@@ -196,6 +196,10 @@ _.map = function(collection, iteratee)
   return mapped
 end
 
+_.mixin = function(source)
+  return _.assign(_, source)
+end
+
 _.noop = function() end
 
 _.omit = function(collection, paths)
