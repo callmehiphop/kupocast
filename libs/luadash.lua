@@ -104,6 +104,17 @@ _.includes = function(collection, value)
   return included
 end
 
+_.indexOf = function(collection, value)
+  local index = 0
+  _.forEach(collection, function(v, i)
+    if v == value then
+      index = i
+    end
+    return index == 0
+  end)
+  return index
+end
+
 _.intersection = function(first, second)
   local seen = {}
   local result = {}
