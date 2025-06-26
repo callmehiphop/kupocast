@@ -115,6 +115,23 @@ return {
       end
     end)
 
+    profile:on('preshot', function()
+      if sets.Preshot then
+        kupo.equip(sets.Preshot)
+      end
+    end)
+
+    -- TODO: learn more about this? This is probably a naive implementation
+    -- Needs to figure out how to computed ranged delay :X
+    profile:on('midshot', function()
+      if sets.InterimShot then
+        kupo.interimEquip(sets.InterimShot)
+      end
+      if sets.Midshot then
+        kupo.equip(sets.Midshot)
+      end
+    end)
+
     -- this will only fire if the pet plugin is loaded
     profile:on('petaction', function(action)
       local layers = { 'Pet' .. action.ActionType }
