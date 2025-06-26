@@ -94,8 +94,15 @@ end
 
 function Profile:_ondefault()
   local player = gData.GetPlayer()
+  local prevStatus = 'Idle'
+  if self.store.player then
+    prevStatus = self.store.player.Status
+  end
   self.store.player = player
   self:emit('default', player)
+  if player.Status ~= prevStatus then
+    self:emit('statuschange', player.Status, prevStatus)
+  end
 end
 
 function Profile:_onload()
