@@ -1,3 +1,5 @@
+local _ = require('kupocast/libs/luadash')
+
 local MappedSet = {}
 
 MappedSet.__index = MappedSet
@@ -15,6 +17,9 @@ end
 
 function MappedSet:get()
   local state = self._injector:get(self._key)
+  if _.isBoolean(state) then
+    state = state and _.upperFirst(self._key)
+  end
   return self[state] or self.Default or {}
 end
 

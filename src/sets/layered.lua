@@ -41,7 +41,11 @@ end
 
 function LayeredSet:get()
   local state = _.map(self._keys, function(key)
-    return self._injector:get(key)
+    local value = self._injector:get(key)
+    if _.isBoolean(value) then
+      value = (value and _.upperFirst(key)) or 'Default'
+    end
+    return value
   end)
   return self._getOrBuild(table.unpack(state))
 end
