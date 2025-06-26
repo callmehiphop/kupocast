@@ -151,7 +151,7 @@ _.isBoolean = function(value)
 end
 
 _.isEmpty = function(value)
-  if _.isString(value) or _.isArrayLike(value) then
+  if _.isString(value) then
     return #value == 0
   elseif not _.isTable(value) then
     return true
